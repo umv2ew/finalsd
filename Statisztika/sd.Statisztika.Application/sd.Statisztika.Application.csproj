@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.0.9" />
+    <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Jatek\sd.Jatek.Integration\sd.Jatek.Integration.csproj" />
+    <ProjectReference Include="..\sd.Statisztika.Domain\sd.Statisztika.Domain.csproj" />
+    <ProjectReference Include="..\sd.Statisztika.Infrastructure\sd.Statisztika.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
