@@ -10,7 +10,7 @@ namespace sd.Jatek.Application.QueryHandlers
             Random rnd = new();
             List<string> words = new();
 
-            using (StreamReader reader = new("C:/Users/lilla/Desktop/Szakdolgozat/sd/Jatek/sd.Jatek.Application/Models/Words.txt"))
+            using (StreamReader reader = new("Files/Words.txt"))
             {
                 string line;
 

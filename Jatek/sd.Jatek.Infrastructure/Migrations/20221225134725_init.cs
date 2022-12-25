@@ -32,7 +32,8 @@ namespace sd.Jatek.Infrastructure.Migrations
                     RoomId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rounds = table.Column<int>(type: "int", nullable: false),
                     RightGuess = table.Column<int>(type: "int", nullable: false),
-                    Started = table.Column<bool>(type: "bit", nullable: false)
+                    Started = table.Column<bool>(type: "bit", nullable: false),
+                    IsPublic = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

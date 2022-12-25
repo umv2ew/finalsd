@@ -34,21 +34,6 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-function ChangeSite(playerRole) {
-    if (playerRole == "Painter") {
-        $("div.painter").show();
-        $("div.guesser").hide();
-        $(".your-canvas-wrapper").css("cursor", "auto");
-        $(".your-canvas-wrapper").css("pointer-events", "auto");
-    }
-    else{
-        $("div.guesser").show();
-        $("div.painter").hide();
-        $(".your-canvas-wrapper").css("cursor", "not-allowed");
-        $(".your-canvas-wrapper").css("pointer-events", "none");
-    }
-}
-
 async function GameOver() {
     await connection.invoke("GameOver", document.getElementById("joinGroup").value);
 
@@ -91,7 +76,6 @@ function GetRole(roomId) {
         url: 'https://localhost:5005/Game/GetRole?id=' + roomId,
         dataType: 'text',
         success: function (data) {
-            //ChangeSite(data);
             if (data == "Painter") {
                 $("div.painter").show();
                 $("div.guesser").hide();
@@ -252,9 +236,11 @@ connection.on("GameStarted", async function () {
     GetRole(group);
     await connection.invoke("GetGroupsPlayers", group);
     await connection.invoke("GetRounds", group);
-    document.getElementById("startGameButton").disabled = true;
-    document.getElementById("startGameButton").style.display = "none";
-    document.getElementById("start-game-label").style.display = "none";
+
+    var element = document.getElementById("startGameButton");
+    element.parentNode.removeChild(element);
+    var element2 = document.getElementById("start-game-label");
+    element2.parentNode.removeChild(element2);
     document.getElementById("pointsId").value = points.toString();
 });
 

@@ -134,6 +134,8 @@ namespace sd.Auth.Web.Controllers
                 PlayedGames = viewModel.PlayedGames,
                 NumberOfWins = viewModel.NumberOfWins,
                 Points = viewModel.Points,
+                Winrate = viewModel.Winrate,
+                PointPerGame= viewModel.PointPerGame,
             };
 
             return View(model);
