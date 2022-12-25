@@ -1,6 +1,269 @@
-﻿@using sd.Jatek.Web.Models
-@model StartGameViewModel
+﻿@using sd.Jatek.Application.ViewModels
+@using sd.Jatek.Web.Models
+@model GameViewModel
 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Game</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+
+    body {
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    /* CSS for header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%), url("/images/FooterImage.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .header .logo {
+      font-size: 25px;
+      font-family: 'Sriracha', cursive;
+      color: #000;
+      text-decoration: none;
+      margin-left: 30px;
+    }
+
+    .nav-items {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-right: 20px;
+    }
+
+    .nav-items a {
+      font-size: 20px;
+      font-family: 'Sriracha', cursive;
+      text-decoration: none;
+      color: #8e44ad;
+      padding: 35px 20px;
+    }
+    /* CSS for main element */
+    .gamedata {
+      display: flex;
+      justify-content: center;
+      align-items: center;  
+      padding: 40px 80px;
+    }
+
+    .gamedata .data {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      padding: 0 30px;
+    }
+
+    .gamedata .data .data-name {
+      font-size: 20px;
+      color: #333333;
+      text-transform: uppercase;
+      margin: 10px 0;
+    }
+
+    .gamedata .data .input-button {
+      width : 100%;
+      margin: 10px 0;
+      border-radius : 7px;
+    }
+
+    .game {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      padding: 40px 80px;
+      border-top: 2px solid #eeeeee;
+    }
+
+    .footer {
+      display: flex;
+      width: 100%;
+      height: 20px;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%), url("/images/FooterImage.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .table {
+      border-collapse: collapse;
+      margin: 25px 0;
+      font-size: 0.9em;
+      font-family: sans-serif;
+      min-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .table thead tr {
+      background-color: #8e44ad;
+      color: #ffffff;
+      text-align: left;
+    }
+
+    .table th,
+    .table td {
+      padding: 12px 15px;
+    }
+
+    .table tbody tr {
+      border-bottom: 1px solid #bfbfbf;
+    }
+
+    .table tbody tr:nth-of-type(even) {
+      background-color: #bfbfbf;
+    }
+
+    .table tbody tr:last-of-type {
+      border-bottom: 2px solid #8e44ad;
+    }
+
+    /*Checkbox*/
+    .checkboxContainer {
+      display: flex;
+      position: relative;
+      padding-left: 35px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+ 
+    .checkboxContainer input {
+      visibility: hidden;
+      cursor: pointer;
+    }
+
+    .mark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 25px;
+      width: 25px;
+      background-color: lightgray;
+    }
+
+    .checkboxContainer:hover input ~ .mark {
+      background-color: gray;
+    }
+
+    .checkboxContainer input:checked ~ .mark {
+      background-color: #8e44ad;
+    }
+
+    .mark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    .checkboxContainer input:checked ~ .mark:after {
+      display: block;
+    }
+
+    .checkboxContainer .mark:after {
+      left: 10px;
+      top: 6px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
+    }
+
+</style>
+</head>
+
+<body>
+  <header class="header">
+    <a href="#" class="logo">Leonardo</a>
+    <nav class="nav-items">
+      <a href="@Url.Action("Index", "Home")">Home</a>
+      <a href="@Url.Action("Profile", "Account")">Profile</a>
+      <a href="@Url.Action("Logout", "Account")">Logout</a>
+    </nav>
+  </header>
+  <main>
+    <div class="gamedata">
+      <div class="data">
+        <form method="post">
+            <p class="data-name">Create Room</p>
+            <input asp-for="Rounds" type="number" class="form-control"/> 
+            <span asp-validation-for="Rounds" class="text-danger"></span>
+            <p></p>
+            <label class="checkboxContainer">
+        	    <label>public:</label>
+                <input asp-for="Public" type="checkbox" class="form-control" />
+                <span class="mark"></span>
+            </label>
+            <button class="input-button" type="submit">Create</button>
+        </form>
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+      </div>
+      <div class="data">
+        <p class="data-name">Enter Room</p>
+        <input type="text" id="groupId">
+        <p></p><p></p><p></p><p></p>
+        <input type="button" class="input-button" onclick="enterRoom()" value="Enter" id="guessButton" />
+      </div>
+    </div>
+    <div class="game">
+   
+   <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model =>(ViewData["rooms"] as IList<PublicRoomsViewModel>)[0].Creator)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model =>(ViewData["rooms"] as IList<PublicRoomsViewModel>)[0].RoomId)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewData["rooms"] as IList<PublicRoomsViewModel>)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Creator)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomId)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="copy">&copy;</div>
+  </footer>
+</body>
+<script>
+
+function enterRoom() {
+    var id = document.getElementById("groupId").value;
+    var url = "https://localhost:5005/Game/EnterRoom?roomId=" + id;
+    window.location.href = url;
+}
+</script>
+</html>
+
+<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,7 +308,7 @@
       padding: 35px 20px;
     }
 
-     .footer {
+    .footer {
       display: flex;
       width: 100%;
       height: 20px;
@@ -73,31 +336,10 @@
         <div class="card text-black" style="border-radius: 25px;">
           <div class="card-body p-md-5">
             <div class="row justify-content-center">
-                <!--
-              <div class="col-md-10 col-lg-6 order-2 order-lg-1">
 
-                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Create Room</p>
-
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                    <div class="form-outline flex-fill mb-0">
-                      <label class="form-label" for="form3Example1c">Select how many rounds u want to play:</label>
-                      <input type="number" class="form-control" id="roundsId">
-                    </div>
-                  </div>
-
-
-                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button onclick="createRoom()" class="btn btn-primary">Create room</button>
-                  </div>
-
-                
-              </div>-->
               <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-
-                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Login</p>
-
-                <form method="post" class="mx-1 mx-md-4">
+                   <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Login</p>
+                  <form method="post" class="mx-1 mx-md-4">
 
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-user fa-lg me-3 fa-fw"></i>
@@ -123,10 +365,11 @@
 
                 </form>
                 <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
               </div>
               
               <div class="col-md-10 col-lg-6 align-items-center order-1 order-lg-2">
-              <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Enter Room</p>
+                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Enter Room</p>
 				 <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
@@ -139,9 +382,38 @@
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                     <button onclick="enterRoom()" class="btn btn-primary">Enter room</button>
                   </div>
+              </div>
 
               </div>
-            </div>
+
+             <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model =>(ViewData["rooms"] as IList<PublicRoomsViewModel>)[0].Creator)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model =>(ViewData["rooms"] as IList<PublicRoomsViewModel>)[0].RoomId)
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewData["rooms"] as IList<PublicRoomsViewModel>)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Creator)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RoomId)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
           </div>
         </div>
       </div>
@@ -169,3 +441,4 @@ function createRoom() {
     window.location.href = url;
 }
 </script>
+-->

@@ -128,7 +128,15 @@ namespace sd.Auth.Web.Controllers
                 var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
                 viewModel = JsonConvert.DeserializeObject<StatisztikaViewModel>(result);
             }
-            return View(viewModel);
+            StatisticsViewModel model = new()
+            {
+                PlayerName = Request.Cookies["UserName"],
+                PlayedGames = viewModel.PlayedGames,
+                NumberOfWins = viewModel.NumberOfWins,
+                Points = viewModel.Points,
+            };
+
+            return View(model);
         }
     }
 }

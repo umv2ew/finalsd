@@ -8,6 +8,7 @@ namespace sd.Jatek.Application.Dtos
         public string PlayerId { get; set; } = default!;
         public string? PlayerName { get; set; }
         public int Rounds { get; set; }
+        public bool IsPublic { get; set; }
         public PlayerRole? PlayerRole { get; set; }
     }
 }

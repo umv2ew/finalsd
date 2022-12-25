@@ -71,9 +71,18 @@ namespace sd.Jatek.Web.Controllers
             return View("Index");
         }
 
+        [HttpGet]
+        [Route("StartGame")]
+        public async Task<IActionResult> StartGame()
+        {
+            ViewData["rooms"] = await _mediator.Send(new GetPublicRoomsQuery());
+
+            return View();
+        }
+
         [HttpPost]
         [Route("StartGame")]
-        public async Task<IActionResult> StartGame(StartGameViewModel viewModel)
+        public async Task<IActionResult> StartGame(GameViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -88,10 +97,14 @@ namespace sd.Jatek.Web.Controllers
                         RoomId = roomId,
                         PlayerName = Request.Cookies["UserName"],
                         Rounds = viewModel.Rounds,
+                        IsPublic = viewModel.Public,
                     }, true));
 
                 return Redirect("https://localhost:5005/Game/CreateRoom?roomId=" + roomId + "&Rounds=" + viewModel.Rounds);
             }
+
+            ViewData["rooms"] = await _mediator.Send(new GetPublicRoomsQuery());
+
             return View(viewModel);
         }
 
@@ -118,12 +131,13 @@ namespace sd.Jatek.Web.Controllers
         }
 
         [HttpGet]
-        [Route("StartGame")]
-        public IActionResult StartGame()
+        [Route("RemovePlayer")]
+        public async Task<IActionResult> RemovePlayer()
         {
-            return View();
-        }
+            await _mediator.Send(new RemovePlayerCommand(Request.Cookies["UserId"]));
 
+            return RedirectToAction("StartGame");
+        }
 
         [HttpPost]
         [Route("Send")]

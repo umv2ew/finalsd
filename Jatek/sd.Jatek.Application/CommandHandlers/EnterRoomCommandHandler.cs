@@ -15,7 +15,7 @@ namespace sd.Jatek.Application.CommandHandlers
         }
         public async Task<bool> Handle(EnterRoomCommand request, CancellationToken cancellationToken)
         {
-            var room = await _context.Rooms.AnyAsync(r => r.RoomId == request.RoomId, cancellationToken);
+            var room = await _context.Rooms.AnyAsync(r => r.RoomId == request.RoomId && !r.Started, cancellationToken);
 
             var painterInRoom = await _context.Players
                 .AnyAsync(p => p.RoomId == request.RoomId && p.PlayerRole == PlayerRole.Painter, cancellationToken);

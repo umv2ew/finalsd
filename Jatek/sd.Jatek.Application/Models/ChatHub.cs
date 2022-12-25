@@ -30,6 +30,8 @@ namespace sd.Jatek.Application.Models
 
         public async Task StartGame(string group)
         {
+            await _mediator.Send(new StartGameCommand(group));
+
             await Clients.Group(group).SendAsync("GameStarted");
         }
 
@@ -43,18 +45,21 @@ namespace sd.Jatek.Application.Models
         public async Task GetWord(string group)
         {
             var word = await _mediator.Send(new GetWordQuery());
+
             await Clients.Group(group).SendAsync("RecieveWord", word);
         }
 
         public async Task GetGroupsPlayers(string group)
         {
             var data = await _mediator.Send(new GetGameDataQuery(group));
+
             await Clients.Group(group).SendAsync("RecievePlayers", data.Players);
         }
 
         public async Task GetRounds(string group)
         {
             var data = await _mediator.Send(new GetGameDataQuery(group));
+
             await Clients.Group(group).SendAsync("RecieveRounds", data.Rounds);
         }
 
@@ -74,12 +79,12 @@ namespace sd.Jatek.Application.Models
             await Clients.Group(group).SendAsync("RecieveWinnerOnGameOver", winner.Tie, winner.Points, winner.Winners);
         }
 
-        public async Task UpdateCanvasToGroup(string group, int prevX, int prevY, int currX, int currY, int width, string color)
+        public async Task UpdateCanvas(string group, int prevX, int prevY, int currX, int currY, int width, string color)
         {
             await Clients.Group(group).SendAsync("updateDot", prevX, prevY, currX, currY, width, color, true);
         }
 
-        public async Task ClearCanvasToGroup(string group)
+        public async Task ClearCanvas(string group)
         {
             await Clients.Group(group).SendAsync("clearCanvas", true);
         }

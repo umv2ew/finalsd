@@ -26,7 +26,8 @@ namespace sd.Jatek.Application.CommandHandlers
                     request.Dto.RoomId,
                     request.Dto.Rounds,
                     0,
-                    false
+                    false,
+                    request.Dto.IsPublic
                     ), cancellationToken);
 
                 await _context.Players.AddAsync(new Player(

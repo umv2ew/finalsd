@@ -34,24 +34,19 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-function ChangeSite() {
-    if (painter == "painter") {
+function ChangeSite(playerRole) {
+    if (playerRole == "Painter") {
         $("div.painter").show();
         $("div.guesser").hide();
+        $(".your-canvas-wrapper").css("cursor", "auto");
+        $(".your-canvas-wrapper").css("pointer-events", "auto");
     }
-    else if(painter == "guesser") {
+    else{
         $("div.guesser").show();
         $("div.painter").hide();
+        $(".your-canvas-wrapper").css("cursor", "not-allowed");
+        $(".your-canvas-wrapper").css("pointer-events", "none");
     }
-}
-
-function getWinner() {
-    if (won) return true;
-    else return false;
-}
-
-function getPoints() {
-    return points;
 }
 
 async function GameOver() {
@@ -59,18 +54,14 @@ async function GameOver() {
 
     var dto = {
         "playerId": getCookie("UserId"),
-        "isWon": getWinner(),
-        "points": getPoints(),
+        "isWon": won,
+        "points": points,
     };
-
-    console.log(dto.isWon);
-    console.log(dto.points);
-    console.log(dto.playerId);
     
     await $.ajax({
         type: 'POST',
         url: 'https://localhost:5005/Game/Send',
-        data: JSON.stringify(dto),//{ 'playerId': getCookie("UserId"), 'isWon': getWinner(), 'points': getPoints() },
+        data: JSON.stringify(dto),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
@@ -100,14 +91,18 @@ function GetRole(roomId) {
         url: 'https://localhost:5005/Game/GetRole?id=' + roomId,
         dataType: 'text',
         success: function (data) {
-            console.log(data);
+            //ChangeSite(data);
             if (data == "Painter") {
                 $("div.painter").show();
                 $("div.guesser").hide();
+                $(".your-canvas-wrapper").css("cursor", "auto");
+                $(".your-canvas-wrapper").css("pointer-events", "auto");
             }
             else {
                 $("div.guesser").show();
                 $("div.painter").hide();
+                $(".your-canvas-wrapper").css("cursor", "not-allowed");
+                $(".your-canvas-wrapper").css("pointer-events", "none");
             }
         },
         error: function (xhr, textStatus, error) {
@@ -207,59 +202,19 @@ connection.start().then(function () {
 
 connection.on("ReceiveMessage", function (user, message) {
     const para = document.createElement("p");
-
     const node = document.createTextNode(`${user}: ${message}`);
 
     para.appendChild(node);
     document.getElementById("card-body").appendChild(para);
 });
 
-/*
-connection.on("RecieveRightGuesses", function (over) {
-    if (over) {
-        erase();
-        connection.invoke("NextPlayer", group);
-        connection.invoke("GetWord", group);
-    }
-});
-*/
 connection.on("RecieveWinnerOnGameOver", function (tie, winningPoints, winners) {
-    //window.alert("Játék véget ért a győztes:" + winner);
     if (winningPoints == points) {
         won = true;
     }
-    dto.isWon = getWinner();
-    dto.points = getPoints();
-    dto.playerId = getCookie("UserId");
-
-    console.log(dto.isWon);
-    console.log(dto.points);
-    console.log(dto.playerId);
 });
 
 connection.on("RecieveRoundOver", function (roundOver) {
-    /*$.ajax({
-        type: 'GET',
-        url: 'https://localhost:5005/Game/GetRoundOver?id=' + document.getElementById("joinGroup").value,
-        dataType: 'text',
-        success: function (data) {
-            console.log(data);
-            if (data == "true") {
-                GameOver();
-            }
-            else {
-                rounds--;
-                document.getElementById("numberOfrounds").value = rounds;
-                GetRole(document.getElementById("joinGroup").value);
-            }
-        },
-        error: function (xhr, textStatus, error) {
-            alert(error);
-        },
-        failure: function (response) {
-            alert("failure " + response.responseText);
-        }
-    });*/
     if (roundOver) {
         rounds--;
         document.getElementById("numberOfrounds").value = rounds;
@@ -269,6 +224,7 @@ connection.on("RecieveRoundOver", function (roundOver) {
     }
     else {
         GetRole(document.getElementById("joinGroup").value);
+        erase();
     }
 });
 
@@ -280,14 +236,8 @@ connection.on("RecieveWord", function (word) {
 
 connection.on("RecievePlayers", function (players) {
     if (players != null) {
-        const para = document.createElement("p");
-
-        const node = document.createTextNode(`${players}`);
-
-        para.appendChild(node);
-        document.getElementById("players-card-body").appendChild(para);
-        //document.getElementById('PlayersList').value = "";
-        //document.getElementById('PlayersList').value = players;
+        document.getElementById('PlayersList').value = "";
+        document.getElementById('PlayersList').value = players;
     }
 });
 
@@ -304,6 +254,7 @@ connection.on("GameStarted", async function () {
     await connection.invoke("GetRounds", group);
     document.getElementById("startGameButton").disabled = true;
     document.getElementById("startGameButton").style.display = "none";
+    document.getElementById("start-game-label").style.display = "none";
     document.getElementById("pointsId").value = points.toString();
 });
 
@@ -329,7 +280,7 @@ connection.on("clearCanvas", function (fromGroup) {
 
 function changeColor(obj) {
     if (obj == "white") {
-        color = "#fcdaf7";
+        color = "white";
         document.getElementById("white").style.border = "2px solid cadetblue";
     }
     else {
@@ -340,7 +291,7 @@ function changeColor(obj) {
 
 function erase() {
     ctx.clearRect(0, 0, w, h);
-    connection.invoke("ClearCanvasToGroup", group).catch(function (err) {
+    connection.invoke("ClearCanvas", group).catch(function (err) {
         return console.error(err.toString());
     });
 }
@@ -396,7 +347,7 @@ function sketch(event) {
     ctx.lineTo(coord.x, coord.y);
     ctx.stroke();
 
-    connection.invoke("UpdateCanvasToGroup", group, prevX, prevY, coord.x, coord.y, parseInt(brushSize), color).catch(function (err) {
+    connection.invoke("UpdateCanvas", group, prevX, prevY, coord.x, coord.y, parseInt(brushSize), color).catch(function (err) {
         return console.error(err.toString());
     });
 }

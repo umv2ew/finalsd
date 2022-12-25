@@ -13,6 +13,7 @@ namespace sd.Jatek.Infrastructure.EntityConfigurations
             builder.Property(x => x.Rounds);
             builder.Property(x => x.RightGuess);
             builder.Property(x => x.Started);
+            builder.Property(x => x.IsPublic);
         }
     }
 }
