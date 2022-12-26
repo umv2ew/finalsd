@@ -4,6 +4,341 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style>
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            width: 100%;
+            box-sizing: border-box;
+}
+
+        .body-container {
+            padding-left: 0px;
+            padding-right: 0px;
+            max-width: 80%;
+        }
+
+    .nav-items {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-right: 20px;
+    }
+
+    .nav-items a {
+        font-size: 20px;
+        font-family: 'Sriracha', cursive;
+        text-decoration: none;
+        color: #8e44ad;
+        padding: 35px 20px;
+    }
+
+/* Style the header */
+.header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: url("/images/FooterImage.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+}
+
+            .header .name {
+                font-size: 25px;
+                font-family: 'Sriracha', cursive;
+                color: #000;
+                text-decoration: none;
+                margin-left: 30px;
+            }
+
+/* Container for flexboxes */
+.row {
+            padding-top: 50px;
+  display: -webkit-flex;
+  display: flex;
+            flex-wrap: wrap;
+}
+
+.form-input {
+            flex-direction: column;
+      width: 100%;
+            display: flex;
+      margin-bottom: 1em;
+            justify-content: space-between;
+            align-items: center;
+      position: relative;
+    }
+
+    .form-input input {
+      width: calc(100% - 20px);
+      padding: 10px;
+      border: 2px solid rgba(185, 182, 211, 0.25);
+      border-radius: 0.5em;
+      font-weight: 600;
+      color: #3e3c49;
+    }
+
+    .form-input input:focus {
+      outline: none;
+      border: 2px solid #b9b6d3;
+    }
+
+    .submit-btn {
+      cursor: pointer;
+      width: 100%;
+      padding: 1em;
+      margin-bottom: 1em;
+      border: none;
+      border-radius: 0.5em;
+      background-color: #f7a1eb;
+      color: white;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .submit-btn:hover {
+      background-color:  #fcdaf7;
+    }
+
+/* Create three equal columns that sits next to each other */
+.column {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 10px;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+}
+.tablecontainer{
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            overflow-y: auto;
+}
+
+        .table {
+            border-collapse: collapse;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 300px;
+            max-width: 400px;
+        }
+
+            .table thead tr {
+                color: #ffffff;
+                text-align: left;
+            }
+
+            .table tbody tr {
+                border-bottom: 1px solid #bfbfbf;
+            }
+
+        /*Checkbox*/
+        .checkboxContainer {
+            display: flex;
+            position: relative;
+            padding-left: 35px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+            .checkboxContainer input {
+                visibility: hidden;
+                cursor: pointer;
+            }
+
+        .mark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: lightgray;
+        }
+
+        .checkboxContainer:hover input ~ .mark {
+            background-color: gray;
+        }
+
+        .checkboxContainer input:checked ~ .mark {
+            background-color: #8e44ad;
+        }
+
+        .mark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .checkboxContainer input:checked ~ .mark:after {
+            display: block;
+        }
+
+        .checkboxContainer .mark:after {
+            left: 10px;
+            top: 6px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+        .data {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+/* Style the footer */
+.footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), url("/images/FooterImage.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: fixed;
+        min-width: 80%;
+        bottom: 0px;
+}
+
+
+</style>
+</head>
+<body>
+
+    <header class="header">
+        <a class="name">Leonardo</a>
+        <nav class="nav-items">
+            <a href="@Url.Action("RemovePlayer", "Game")">Leave Game</a>
+        </nav>
+    </header>
+
+<div class="row">
+  <div class="column">
+      <div class="card">
+
+            <div class="card-header justify-content-between">
+                <h4 class="mb-0">Create Room</h4>
+            </div>
+
+                 <form method="post">
+            <div class="card-body" id="card-body"style="overflow-y: auto;width: 340px; height: 160px;">
+                        <div class="form-input">
+                            <label>Select rounds</label>
+                            <input asp-for="Rounds" type="number" min="1" max="5" class="form-control" />
+                            <span asp-validation-for="Rounds" class="text-danger"></span>
+                    </div>
+                        <div class="form-input">
+                    <label class="checkboxContainer">
+        	            <label>public</label>
+                        <input asp-for="Public" type="checkbox" class="form-control" />
+                        <span class="mark"></span>
+                    </label>
+                    </div>
+
+            </div>
+                    <div class="card-footer text-muted justify-content-start align-items-center p-3">
+                        <div class="input-group mb-0">
+                        <button class="submit-btn" type="submit">Create</button>
+                        </div>
+                    </div>
+                </form>
+
+        </div>
+                <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+  </div>
+  <div class="column">
+      <div class="card">
+
+            <div class="card-header justify-content-between">
+                <h4 class="mb-0">Enter room</h4>
+            </div>
+
+            <div class="card-body" id="card-body"style="overflow-y: auto;width: 340px; height: 160px;">
+                    <div class="form-input">
+                        <label>Room id:</label>
+                        <input type="text" id="groupId">
+                        
+                    </div>
+            </div>
+
+            <div class="card-footer text-muted justify-content-start align-items-center p-3">
+                <div class="input-group mb-0">
+                        <button class="submit-btn" onclick="enterRoom()" value="Enter" id="guessButton"> Enter </button>
+                </div>
+            </div>
+
+        </div>
+
+  </div>
+</div>
+
+  <div class="container" style="padding-top:50px;">
+  <button type="button" class="submit-btn" data-toggle="collapse" data-target="#demo">Show public games</button>
+  <div id="demo" class="collapse">
+    <div class="tablecontainer">
+    <table class="table">
+<thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model =>(ViewData["rooms"] as IList<PublicRoomsViewModel>)[0].Creator)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model =>(ViewData["rooms"] as IList<PublicRoomsViewModel>)[0].RoomId)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewData["rooms"] as IList<PublicRoomsViewModel>)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Creator)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomId)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+  </div>
+</div>
+    <footer class="footer">
+        <div class="copy">&copy; 2022 sd.Jatek.Web</div>
+    </footer>
+
+</body>
+</html>
+
+<script>
+    function enterRoom() {
+        var id = document.getElementById("groupId").value;
+        var url = "https://localhost:5005/Game/EnterRoom?roomId=" + id;
+        window.location.href = url;
+    }
+</script>
+
+@*
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -27,7 +362,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%), url("/images/FooterImage.jpg");
+      background: url("/images/FooterImage.jpg");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -95,10 +430,13 @@
       display: flex;
       width: 100%;
       height: 20px;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%), url("/images/FooterImage.jpg");
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), url("/images/FooterImage.jpg");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+        position: fixed;
+        min-width: 80%;
+        bottom: 0px;
     }
 
     .table {
@@ -262,7 +600,7 @@ function enterRoom() {
 }
 </script>
 </html>
-
+*@
 <!--
 <!DOCTYPE html>
 <html lang="en">
