@@ -116,7 +116,7 @@ document.getElementById("guessButton").addEventListener("click", async function 
         document.getElementById("pointsId").value = points;
         document.getElementById("guessText").value = "";
         GetPainterFinished(document.getElementById("joinGroup").value);
-        connection.invoke("SendMessage", user, "guessed right");
+        connection.invoke("SendMessage",group, user, "guessed right");
     }
     event.preventDefault();
 });
