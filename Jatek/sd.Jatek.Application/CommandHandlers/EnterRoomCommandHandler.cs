@@ -30,12 +30,14 @@ namespace sd.Jatek.Application.CommandHandlers
 
             if (room)
             {
+                var maxPlace = _context.Players.Where(p => p.RoomId == request.RoomId).Select(p => p.Place).Max();
                 await _context.Players.AddAsync(new Player(
                     Guid.NewGuid().ToString(),
                     request.RoomId,
                     0,
                     request.PlayerId,
                     request.PlayerName,
+                    maxPlace + 1,
                     painterInRoom ? PlayerRole.Guesser : PlayerRole.Painter
                 ), cancellationToken);
 

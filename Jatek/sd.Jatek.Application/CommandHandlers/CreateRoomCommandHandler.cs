@@ -39,6 +39,7 @@ namespace sd.Jatek.Application.CommandHandlers
                 0,
                 request.Dto.PlayerId,
                 request.Dto.PlayerName,
+                1,
                 PlayerRole.Painter), cancellationToken);
 
             await _context.SaveChangesAsync(cancellationToken);

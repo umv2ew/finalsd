@@ -137,6 +137,7 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     connection.invoke("SendMessage", group, user, message).catch(function (err) {
         return console.error(err.toString());
     });
+    document.getElementById("messageInput").value = "";
     event.preventDefault();
 });
 
@@ -237,7 +238,7 @@ connection.on("GameStarted", async function () {
 
     document.getElementById("startGameButton").remove();
     document.getElementById("start-game-label").remove();
-
+    erase();
     document.getElementById("pointsId").value = points.toString();
 });
 
