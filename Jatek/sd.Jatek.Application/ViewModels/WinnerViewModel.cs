@@ -1,8 +1,8 @@
-﻿namespace sd.Jatek.Application.Dtos
+﻿namespace sd.Jatek.Application.ViewModels
 {
-    public class WinnerDto
+    public class WinnerViewModel
     {
-        public WinnerDto(bool tie, int points, string winners)
+        public WinnerViewModel(bool tie, int points, string winners)
         {
             Tie = tie;
             Points = points;

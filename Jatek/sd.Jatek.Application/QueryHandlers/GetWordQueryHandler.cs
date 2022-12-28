@@ -3,7 +3,7 @@ using sd.Jatek.Application.Querys;
 
 namespace sd.Jatek.Application.QueryHandlers
 {
-    internal class GetWordQueryHandler : IRequestHandler<GetWordQuery, string>
+    public class GetWordQueryHandler : IRequestHandler<GetWordQuery, string>
     {
         public async Task<string> Handle(GetWordQuery request, CancellationToken cancellationToken)
         {

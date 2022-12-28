@@ -20,6 +20,14 @@ namespace sd.Jatek.Application.CommandHandlers
             var painterInRoom = await _context.Players
                 .AnyAsync(p => p.RoomId == request.RoomId && p.PlayerRole == PlayerRole.Painter, cancellationToken);
 
+            var alreadyInRoom = _context.Players.FirstOrDefault(p => p.PlayerId == request.PlayerId);
+
+            if(alreadyInRoom != null)
+            {
+                _context.Players.Remove(alreadyInRoom);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+
             if (room)
             {
                 await _context.Players.AddAsync(new Player(

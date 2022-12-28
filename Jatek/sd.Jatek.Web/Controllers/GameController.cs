@@ -31,27 +31,6 @@ namespace sd.Jatek.Web.Controllers
             ViewBag.Rounds = rounds;
             return View();
         }
-        /*
-        public async Task<IActionResult> Index(int rounds)
-        {
-            ViewBag.Rounds = rounds;
-            var roomId = Guid.NewGuid().ToString();
-
-            var userId = Request.Cookies["UserId"];
-
-            var created = await _mediator.Send(new CreateRoomCommand(
-                new RoomDto
-                {
-                    PlayerId = userId,
-                    RoomId = roomId,
-                    PlayerName = Request.Cookies["UserName"],
-                    Rounds = rounds,
-                }, true));
-
-            ViewBag.RoomId = created == "" ? roomId : created;
-            return View();
-        }
-         */
 
         [Route("EnterRoom")]
         public async Task<IActionResult> EnterRoom(string roomId)
@@ -90,7 +69,7 @@ namespace sd.Jatek.Web.Controllers
 
                 var userId = Request.Cookies["UserId"];
 
-                var created = await _mediator.Send(new CreateRoomCommand(
+                await _mediator.Send(new CreateRoomCommand(
                     new RoomDto
                     {
                         PlayerId = userId,
@@ -121,13 +100,6 @@ namespace sd.Jatek.Web.Controllers
         public async Task<string> GetPainterFinished(string id)
         {
             return await _mediator.Send(new GetPainterFinishedQuery(id));
-        }
-
-        [HttpGet]
-        [Route("GetRoundOver")]
-        public async Task<string> GetRoundOver(string id)
-        {
-            return await _mediator.Send(new GetRoundOverQuery(id));
         }
 
         [HttpGet]

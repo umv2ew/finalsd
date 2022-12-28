@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/ChatHub").build();
+var connection = new signalR.HubConnectionBuilder().withUrl("/GameHub").build();
 
 var group = "",
     user = "",
@@ -13,6 +13,7 @@ var points = 0,
 var wordToGuess = "";
 
 var won = false;
+var message = "";
 
 //painting
 var canvas,
@@ -36,41 +37,9 @@ function getCookie(name) {
 
 async function GameOver() {
     await connection.invoke("GameOver", document.getElementById("joinGroup").value);
-
-    var dto = {
-        "playerId": getCookie("UserId"),
-        "isWon": won,
-        "points": points,
-    };
-    
-    await $.ajax({
-        type: 'POST',
-        url: 'https://localhost:5005/Game/Send',
-        data: JSON.stringify(dto),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-            console.log(data);
-        },
-        error: function (error) {
-            alert("error ");
-        },
-        failure: function (response) {
-            alert("failure " );
-        }
-    });
-    
-    if (confirm("Press a button!")) {
-        var url = "https://localhost:7187/Account/Profile";
-        window.location.href = url;
-    } else {
-        var url = "https://localhost:7187/Account/Profile";
-        window.location.href = url;
-    }
 }
 
 function GetRole(roomId) {
-    console.log("called ajax");
     $.ajax({
         type: 'GET',
         url: 'https://localhost:5005/Game/GetRole?id=' + roomId,
@@ -99,13 +68,11 @@ function GetRole(roomId) {
 }
 
 function GetPainterFinished(roomId) {
-    console.log("called GetPainterFinished");
     $.ajax({
         type: 'GET',
         url: 'https://localhost:5005/Game/GetPainterFinished?id=' + roomId,
         dataType: 'text',
         success: function (data) {
-            console.log(data);
             if (data == "true") {
                 connection.invoke("NextPlayer", group);
                 connection.invoke("GetWord", group);
@@ -143,14 +110,11 @@ function init() {
 //events
 document.getElementById("guessButton").addEventListener("click", async function (event) {
     var guess = document.getElementById("guessText").value;
-    console.log(guess);
-    console.log(wordToGuess);
     if (guess == wordToGuess) {
         await connection.invoke("RightGuess", document.getElementById("joinGroup").value, getCookie("UserId"));
         points++;
         document.getElementById("pointsId").value = points;
         document.getElementById("guessText").value = "";
-        console.log(points);
         GetPainterFinished(document.getElementById("joinGroup").value);
         connection.invoke("SendMessage", user, "guessed right");
     }
@@ -170,7 +134,7 @@ document.getElementById("startGameButton").addEventListener("click", function (e
 
 document.getElementById("sendButton").addEventListener("click", function (event) {
     var message = document.getElementById("messageInput").value;
-    connection.invoke("SendMessage", user, message).catch(function (err) {
+    connection.invoke("SendMessage", group, user, message).catch(function (err) {
         return console.error(err.toString());
     });
     event.preventDefault();
@@ -196,6 +160,42 @@ connection.on("RecieveWinnerOnGameOver", function (tie, winningPoints, winners) 
     if (winningPoints == points) {
         won = true;
     }
+    message = winners + " won with " + winningPoints + " point";
+
+    if (winningPoints == 0) {
+        message = "Everyone got 0 points";
+        won = false;
+    }
+
+    var dto = {
+        "playerId": getCookie("UserId"),
+        "isWon": won,
+        "points": points,
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: 'https://localhost:5005/Game/Send',
+        data: JSON.stringify(dto),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+
+            if (confirm(message)) {
+                var url = "https://localhost:7187/Account/Profile";
+                window.location.href = url;
+            } else {
+                var url = "https://localhost:7187/Account/Profile";
+                window.location.href = url;
+            }
+        },
+        error: function (error) {
+            alert(error);
+        },
+        failure: function (response) {
+            alert(response);
+        }
+    });
 });
 
 connection.on("RecieveRoundOver", function (roundOver) {
@@ -214,7 +214,6 @@ connection.on("RecieveRoundOver", function (roundOver) {
 
 connection.on("RecieveWord", function (word) {
     wordToGuess = word;
-    console.log(wordToGuess);
     document.getElementById("wordToGuess").value = wordToGuess;
 });
 
@@ -227,7 +226,6 @@ connection.on("RecievePlayers", function (players) {
 
 connection.on("RecieveRounds", function (round) {
     rounds = round;
-    console.log(rounds);
     document.getElementById("numberOfrounds").value = rounds;
 });
 
@@ -237,31 +235,26 @@ connection.on("GameStarted", async function () {
     await connection.invoke("GetGroupsPlayers", group);
     await connection.invoke("GetRounds", group);
 
-    var element = document.getElementById("startGameButton");
-    element.parentNode.removeChild(element);
-    var element2 = document.getElementById("start-game-label");
-    element2.parentNode.removeChild(element2);
+    document.getElementById("startGameButton").remove();
+    document.getElementById("start-game-label").remove();
+
     document.getElementById("pointsId").value = points.toString();
 });
 
 //drawing
-connection.on("updateDot", function (prevX, prevY, currX, currY, hubWidth, hubColor, fromGroup) {
-    if (fromGroup) {
-        ctx.beginPath();
-        ctx.lineWidth = hubWidth;
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = hubColor;
-        ctx.moveTo(prevX, prevY);
-        ctx.lineTo(currX, currY);
-        ctx.stroke();
-    }
+connection.on("RecieveUpdateCanvas", function (prevX, prevY, currX, currY, hubWidth, hubColor) {
+    ctx.beginPath();
+    ctx.lineWidth = hubWidth;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = hubColor;
+    ctx.moveTo(prevX, prevY);
+    ctx.lineTo(currX, currY);
+    ctx.stroke();
 });
 
-connection.on("clearCanvas", function (fromGroup) {
-    if (fromGroup) {
-        ctx.clearRect(0, 0, w, h);
-        document.getElementById("canvasimg").style.display = "none";
-    }
+connection.on("RecieveClearCanvas", function () {
+    ctx.clearRect(0, 0, w, h);
+    document.getElementById("canvasimg").style.display = "none";
 });
 
 function changeColor(obj) {
@@ -295,7 +288,7 @@ document.getElementById("brushSize").addEventListener("change", function (event)
 });
 
 document.getElementById("clearButton").addEventListener("click", function (event) {
-    var m = confirm("Want to clear");
+    var m = confirm("Are you sure you want to clear the canvas?");
     if (m) {
         erase();
     }
@@ -303,8 +296,8 @@ document.getElementById("clearButton").addEventListener("click", function (event
 });
 
 function getPosition(event) {
-    coord.x = event.clientX - canvas.offsetLeft;
-    coord.y = event.clientY - canvas.offsetTop;
+    coord.x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - canvas.offsetLeft;
+    coord.y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop - canvas.offsetTop;
 }
 
 function startPainting(event) {

@@ -109,6 +109,8 @@ namespace sd.Auth.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+            Response.Cookies.Delete("UserId");
+            Response.Cookies.Delete("UserName");
             return RedirectToAction("Index", "Home");
         }
 
@@ -120,25 +122,21 @@ namespace sd.Auth.Web.Controllers
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, siteUri) { };
 
-            StatisztikaViewModel viewModel = new();
+            StatisticViewModel viewModel = new();
 
             var httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
-                viewModel = JsonConvert.DeserializeObject<StatisztikaViewModel>(result);
+                viewModel = JsonConvert.DeserializeObject<StatisticViewModel>(result);
             }
-            StatisticsViewModel model = new()
+            else
             {
-                PlayerName = Request.Cookies["UserName"],
-                PlayedGames = viewModel.PlayedGames,
-                NumberOfWins = viewModel.NumberOfWins,
-                Points = viewModel.Points,
-                Winrate = viewModel.Winrate,
-                PointPerGame= viewModel.PointPerGame,
-            };
+                ModelState.AddModelError(string.Empty, "Either this feature is currently not working or there is no saved statistic");
+            }
+            viewModel.User = Request.Cookies["UserName"];
 
-            return View(model);
+            return View(viewModel);
         }
     }
 }

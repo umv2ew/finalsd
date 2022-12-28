@@ -2,29 +2,28 @@
 @using sd.Jatek.Web.Models
 @model GameViewModel
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 <style>
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-            margin: 0;
-            width: 100%;
-            box-sizing: border-box;
-}
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
 
-        .body-container {
-            padding-left: 0px;
-            padding-right: 0px;
-            max-width: 80%;
-        }
+    .body-container {
+        padding-left: 0px;
+        padding-right: 0px;
+        max-width: 80%;
+    }
 
     .nav-items {
         display: flex;
@@ -41,192 +40,188 @@ body {
         padding: 35px 20px;
     }
 
-/* Style the header */
-.header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: url("/images/FooterImage.jpg");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-}
-
-            .header .name {
-                font-size: 25px;
-                font-family: 'Sriracha', cursive;
-                color: #000;
-                text-decoration: none;
-                margin-left: 30px;
-            }
-
-/* Container for flexboxes */
-.row {
-            padding-top: 50px;
-  display: -webkit-flex;
-  display: flex;
-            flex-wrap: wrap;
-}
-
-.form-input {
-            flex-direction: column;
-      width: 100%;
-            display: flex;
-      margin-bottom: 1em;
-            justify-content: space-between;
-            align-items: center;
-      position: relative;
-    }
-
-    .form-input input {
-      width: calc(100% - 20px);
-      padding: 10px;
-      border: 2px solid rgba(185, 182, 211, 0.25);
-      border-radius: 0.5em;
-      font-weight: 600;
-      color: #3e3c49;
-    }
-
-    .form-input input:focus {
-      outline: none;
-      border: 2px solid #b9b6d3;
-    }
-
-    .submit-btn {
-      cursor: pointer;
-      width: 100%;
-      padding: 1em;
-      margin-bottom: 1em;
-      border: none;
-      border-radius: 0.5em;
-      background-color: #f7a1eb;
-      color: white;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    .submit-btn:hover {
-      background-color:  #fcdaf7;
-    }
-
-/* Create three equal columns that sits next to each other */
-.column {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  padding: 10px;
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
-}
-.tablecontainer{
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
-            overflow-y: auto;
-}
-
-        .table {
-            border-collapse: collapse;
-            font-size: 0.9em;
-            font-family: sans-serif;
-            min-width: 300px;
-            max-width: 400px;
-        }
-
-            .table thead tr {
-                color: #ffffff;
-                text-align: left;
-            }
-
-            .table tbody tr {
-                border-bottom: 1px solid #bfbfbf;
-            }
-
-        /*Checkbox*/
-        .checkboxContainer {
-            display: flex;
-            position: relative;
-            padding-left: 35px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-            .checkboxContainer input {
-                visibility: hidden;
-                cursor: pointer;
-            }
-
-        .mark {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 25px;
-            width: 25px;
-            background-color: lightgray;
-        }
-
-        .checkboxContainer:hover input ~ .mark {
-            background-color: gray;
-        }
-
-        .checkboxContainer input:checked ~ .mark {
-            background-color: #8e44ad;
-        }
-
-        .mark:after {
-            content: "";
-            position: absolute;
-            display: none;
-        }
-
-        .checkboxContainer input:checked ~ .mark:after {
-            display: block;
-        }
-
-        .checkboxContainer .mark:after {
-            left: 10px;
-            top: 6px;
-            width: 5px;
-            height: 10px;
-            border: solid white;
-            border-width: 0 3px 3px 0;
-            transform: rotate(45deg);
-        }
-
-        .data {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 0 40px;
-        }
-
-/* Style the footer */
-.footer {
+    .header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), url("/images/FooterImage.jpg");
+        background: url("/images/FooterImage.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .header .name {
+        font-size: 25px;
+        font-family: 'Sriracha', cursive;
+        color: #000;
+        text-decoration: none;
+        margin-left: 30px;
+    }
+
+    .row {
+        padding-top: 50px;
+        display: -webkit-flex;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .form-input {
+        flex-direction: column;
+        width: 100%;
+        display: flex;
+        margin-bottom: 1em;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+    }
+
+    .form-input input {
+        width: calc(100% - 20px);
+        padding: 10px;
+        border: 2px solid rgba(185, 182, 211, 0.25);
+        border-radius: 0.5em;
+        font-weight: 600;
+        color: #3e3c49;
+    }
+
+    .form-input input:focus {
+        outline: none;
+        border: 2px solid #b9b6d3;
+    }
+
+    .submit-btn {
+        cursor: pointer;
+        width: 100%;
+        padding: 1em;
+        margin-bottom: 1em;
+        border: none;
+        border-radius: 0.5em;
+        background-color: #f7a1eb;
+        color: white;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .submit-btn:hover {
+        background-color:  #fcdaf7;
+    }
+
+    .column {
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        padding: 10px;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .tablecontainer{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        overflow-y: auto;
+    }
+
+    .table {
+        border-collapse: collapse;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 300px;
+        max-width: 400px;
+    }
+
+    .table thead tr {
+        color: #ffffff;
+        text-align: left;
+    }
+
+    .table tbody tr {
+        border-bottom: 1px solid #bfbfbf;
+    }
+
+    .checkboxContainer {
+        display: flex;
+        position: relative;
+        padding-left: 35px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .checkboxContainer input {
+        visibility: hidden;
+        cursor: pointer;
+    }
+
+    .mark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: lightgray;
+    }
+
+    .checkboxContainer:hover input ~ .mark {
+        background-color: gray;
+    }
+
+    .checkboxContainer input:checked ~ .mark {
+        background-color: #8e44ad;
+    }
+
+    .mark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    .checkboxContainer input:checked ~ .mark:after {
+        display: block;
+    }
+
+    .checkboxContainer .mark:after {
+        left: 10px;
+        top: 6px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+    }
+
+    .data {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0 40px;
+    }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: url("/images/FooterImage.jpg");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         position: fixed;
-        min-width: 80%;
         bottom: 0px;
-}
-
+    }
 
 </style>
 </head>
+
 <body>
 
-    <header class="header">
-        <a class="name">Leonardo</a>
-        <nav class="nav-items">
-            <a href="@Url.Action("RemovePlayer", "Game")">Leave Game</a>
-        </nav>
-    </header>
+<header class="header">
+    <a class="name">Leonardo</a>
+    <nav class="nav-items">
+        <a href="@Url.Action("Profile", "Account")">Profile</a>
+        <a href="@Url.Action("Logout", "Account")">Logout</a>
+    </nav>
+</header>
 
 <div class="row">
   <div class="column">
@@ -236,31 +231,33 @@ body {
                 <h4 class="mb-0">Create Room</h4>
             </div>
 
-                 <form method="post">
-            <div class="card-body" id="card-body"style="overflow-y: auto;width: 340px; height: 160px;">
-                        <div class="form-input">
-                            <label>Select rounds</label>
-                            <input asp-for="Rounds" type="number" min="1" max="5" class="form-control" />
-                            <span asp-validation-for="Rounds" class="text-danger"></span>
-                    </div>
-                        <div class="form-input">
-                    <label class="checkboxContainer">
-        	            <label>public</label>
-                        <input asp-for="Public" type="checkbox" class="form-control" />
-                        <span class="mark"></span>
-                    </label>
+            <form method="post">
+                <div class="card-body" id="card-body"style="overflow-y: auto;width: 340px; height: 160px;">
+
+                    <div class="form-input">
+                        <label>Select rounds</label>
+                        <input asp-for="Rounds" type="number" min="1" max="5" class="form-control" />
+                        <span asp-validation-for="Rounds" class="text-danger"></span>
                     </div>
 
-            </div>
-                    <div class="card-footer text-muted justify-content-start align-items-center p-3">
-                        <div class="input-group mb-0">
-                        <button class="submit-btn" type="submit">Create</button>
-                        </div>
+                     <div class="form-input">
+                        <label class="checkboxContainer">
+        	                <label>public</label>
+                            <input asp-for="Public" type="checkbox" class="form-control" />
+                            <span class="mark"></span>
+                        </label>
                     </div>
-                </form>
 
-        </div>
-                <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                </div>
+                <div class="card-footer text-muted justify-content-start align-items-center p-3">
+                    <div class="input-group mb-0">
+                    <button class="submit-btn" type="submit">Create</button>
+                    </div>
+                </div>
+            </form>
+
+      </div>
+      <div class="text-danger" asp-validation-summary="ModelOnly"></div>
 
   </div>
   <div class="column">
@@ -271,16 +268,16 @@ body {
             </div>
 
             <div class="card-body" id="card-body"style="overflow-y: auto;width: 340px; height: 160px;">
-                    <div class="form-input">
-                        <label>Room id:</label>
-                        <input type="text" id="groupId">
+                <div class="form-input">
+                    <label>Room id:</label>
+                    <input type="text" id="groupId">
                         
-                    </div>
+                </div>
             </div>
 
             <div class="card-footer text-muted justify-content-start align-items-center p-3">
                 <div class="input-group mb-0">
-                        <button class="submit-btn" onclick="enterRoom()" value="Enter" id="guessButton"> Enter </button>
+                    <button class="submit-btn" onclick="enterRoom()" value="Enter" id="guessButton"> Enter </button>
                 </div>
             </div>
 
@@ -289,442 +286,12 @@ body {
   </div>
 </div>
 
-  <div class="container" style="padding-top:50px;">
-  <button type="button" class="submit-btn" data-toggle="collapse" data-target="#demo">Show public games</button>
-  <div id="demo" class="collapse">
-    <div class="tablecontainer">
-    <table class="table">
-<thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model =>(ViewData["rooms"] as IList<PublicRoomsViewModel>)[0].Creator)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model =>(ViewData["rooms"] as IList<PublicRoomsViewModel>)[0].RoomId)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in ViewData["rooms"] as IList<PublicRoomsViewModel>)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Creator)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RoomId)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-</div>
-  </div>
-</div>
-    <footer class="footer">
-        <div class="copy">&copy; 2022 sd.Jatek.Web</div>
-    </footer>
+<div class="container" style="padding-top:50px;">
+    <button type="button" class="submit-btn" data-toggle="collapse" data-target="#demo">Show public games</button>
+    <div id="demo" class="collapse">
+        <div class="tablecontainer">
 
-</body>
-</html>
-
-<script>
-    function enterRoom() {
-        var id = document.getElementById("groupId").value;
-        var url = "https://localhost:5005/Game/EnterRoom?roomId=" + id;
-        window.location.href = url;
-    }
-</script>
-
-@*
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Start Game</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-  <style>
-
-    body {
-      margin: 0;
-      box-sizing: border-box;
-    }
-
-    /* CSS for header */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: url("/images/FooterImage.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
-    .header .logo {
-      font-size: 25px;
-      font-family: 'Sriracha', cursive;
-      color: #000;
-      text-decoration: none;
-      margin-left: 30px;
-    }
-
-    .nav-items {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      margin-right: 20px;
-    }
-
-    .nav-items a {
-      font-size: 20px;
-      font-family: 'Sriracha', cursive;
-      text-decoration: none;
-      color: #8e44ad;
-      padding: 35px 20px;
-    }
-    /* CSS for main element */
-    .gamedata {
-      display: flex;
-      justify-content: center;
-      align-items: center;  
-      padding: 40px 80px;
-    }
-
-    .gamedata .data {
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      padding: 0 30px;
-    }
-
-    .gamedata .data .data-name {
-      font-size: 20px;
-      color: #333333;
-      text-transform: uppercase;
-      margin: 10px 0;
-    }
-
-    .gamedata .data .input-button {
-      width : 100%;
-      margin: 10px 0;
-      border-radius : 7px;
-    }
-
-    .game {
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-      padding: 40px 80px;
-      border-top: 2px solid #eeeeee;
-    }
-
-    .footer {
-      display: flex;
-      width: 100%;
-      height: 20px;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), url("/images/FooterImage.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-        position: fixed;
-        min-width: 80%;
-        bottom: 0px;
-    }
-
-    .table {
-      border-collapse: collapse;
-      margin: 25px 0;
-      font-size: 0.9em;
-      font-family: sans-serif;
-      min-width: 400px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .table thead tr {
-      background-color: #8e44ad;
-      color: #ffffff;
-      text-align: left;
-    }
-
-    .table th,
-    .table td {
-      padding: 12px 15px;
-    }
-
-    .table tbody tr {
-      border-bottom: 1px solid #bfbfbf;
-    }
-
-    .table tbody tr:nth-of-type(even) {
-      background-color: #bfbfbf;
-    }
-
-    .table tbody tr:last-of-type {
-      border-bottom: 2px solid #8e44ad;
-    }
-
-    /*Checkbox*/
-    .checkboxContainer {
-      display: flex;
-      position: relative;
-      padding-left: 35px;
-      cursor: pointer;
-      font-size: 16px;
-    }
- 
-    .checkboxContainer input {
-      visibility: hidden;
-      cursor: pointer;
-    }
-
-    .mark {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 25px;
-      width: 25px;
-      background-color: lightgray;
-    }
-
-    .checkboxContainer:hover input ~ .mark {
-      background-color: gray;
-    }
-
-    .checkboxContainer input:checked ~ .mark {
-      background-color: #8e44ad;
-    }
-
-    .mark:after {
-      content: "";
-      position: absolute;
-      display: none;
-    }
-
-    .checkboxContainer input:checked ~ .mark:after {
-      display: block;
-    }
-
-    .checkboxContainer .mark:after {
-      left: 10px;
-      top: 6px;
-      width: 5px;
-      height: 10px;
-      border: solid white;
-      border-width: 0 3px 3px 0;
-      transform: rotate(45deg);
-    }
-
-</style>
-</head>
-
-<body>
-  <header class="header">
-    <a href="#" class="logo">Leonardo</a>
-    <nav class="nav-items">
-      <a href="@Url.Action("Index", "Home")">Home</a>
-      <a href="@Url.Action("Profile", "Account")">Profile</a>
-      <a href="@Url.Action("Logout", "Account")">Logout</a>
-    </nav>
-  </header>
-  <main>
-    <div class="gamedata">
-      <div class="data">
-        <form method="post">
-            <p class="data-name">Create Room</p>
-            <input asp-for="Rounds" type="number" class="form-control"/> 
-            <span asp-validation-for="Rounds" class="text-danger"></span>
-            <p></p>
-            <label class="checkboxContainer">
-        	    <label>public:</label>
-                <input asp-for="Public" type="checkbox" class="form-control" />
-                <span class="mark"></span>
-            </label>
-            <button class="input-button" type="submit">Create</button>
-        </form>
-        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-      </div>
-      <div class="data">
-        <p class="data-name">Enter Room</p>
-        <input type="text" id="groupId">
-        <p></p><p></p><p></p><p></p>
-        <input type="button" class="input-button" onclick="enterRoom()" value="Enter" id="guessButton" />
-      </div>
-    </div>
-    <div class="game">
-   
-   <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model =>(ViewData["rooms"] as IList<PublicRoomsViewModel>)[0].Creator)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model =>(ViewData["rooms"] as IList<PublicRoomsViewModel>)[0].RoomId)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in ViewData["rooms"] as IList<PublicRoomsViewModel>)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Creator)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RoomId)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-    </div>
-  </main>
-  <footer class="footer">
-    <div class="copy">&copy;</div>
-  </footer>
-</body>
-<script>
-
-function enterRoom() {
-    var id = document.getElementById("groupId").value;
-    var url = "https://localhost:5005/Game/EnterRoom?roomId=" + id;
-    window.location.href = url;
-}
-</script>
-</html>
-*@
-<!--
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-<style>
-.header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%), url("/images/FooterImage.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
-    .header .logo {
-      font-size: 25px;
-      font-family: 'Sriracha', cursive;
-      color: #000;
-      text-decoration: none;
-      margin-left: 30px;
-    }
-
-    .nav-items {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      margin-right: 20px;
-    }
-
-    .nav-items a {
-      font-size: 20px;
-      font-family: 'Sriracha', cursive;
-      text-decoration: none;
-      color: #8e44ad;
-      padding: 35px 20px;
-    }
-
-    .footer {
-      display: flex;
-      width: 100%;
-      height: 20px;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%), url("/images/FooterImage.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-</style>
-</head>
-
-<header class="header">
-    <a href="#" class="logo">Leonardo</a>
-    <nav class="nav-items">
-      <a href="@Url.Action("Index", "Home")">Home</a>
-      <a href="@Url.Action("Profile", "Account")">Profile</a>
-      <a href="@Url.Action("Logout", "Account")">Logout</a>
-    </nav>
-</header>
-
-<section class="vh-100" style="background-color: #eee;">
-  <div class="container h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-lg-12 col-xl-11">
-        <div class="card text-black" style="border-radius: 25px;">
-          <div class="card-body p-md-5">
-            <div class="row justify-content-center">
-
-              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-                   <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Login</p>
-                  <form method="post" class="mx-1 mx-md-4">
-
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                    <div class="form-outline flex-fill mb-0">
-                      <label asp-for="Rounds" class="lable-control"></label>  
-                        <input asp-for="Rounds" type="number" class="form-control" />  
-                      <span asp-validation-for="Rounds" class="text-danger"></span>
-                    </div>
-                  </div>
-
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-                    <div class="form-outline flex-fill mb-0">
-                      <input asp-for="Public" type="checkbox" id="form3Example4c" class="form-control" />
-                      <label class="form-label" for="form3Example4c">Public</label>
-                      <span class="text-danger" asp-validation-for="Public"></span>
-                    </div>
-                  </div>
-
-                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button type="submit" class="btn btn-primary btn-lg">Create Room</button>
-                  </div>
-
-                </form>
-                <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-
-              </div>
-              
-              <div class="col-md-10 col-lg-6 align-items-center order-1 order-lg-2">
-                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Enter Room</p>
-				 <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                    <div class="form-outline flex-fill mb-0">
-                      <label class="form-label" for="form3Example1c">Please enter the room id:</label>
-                      <input type="text" class="form-control" id="groupId">
-                    </div>
-                  </div>
-
-
-                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button onclick="enterRoom()" class="btn btn-primary">Enter room</button>
-                  </div>
-              </div>
-
-              </div>
-
-             <table class="table">
+            <table class="table">
                 <thead>
                     <tr>
                         <th>
@@ -733,10 +300,9 @@ function enterRoom() {
                         <th>
                             @Html.DisplayNameFor(model =>(ViewData["rooms"] as IList<PublicRoomsViewModel>)[0].RoomId)
                         </th>
-                        <th>
-                        </th>
                     </tr>
                 </thead>
+
                 <tbody>
                     @foreach (var item in ViewData["rooms"] as IList<PublicRoomsViewModel>)
                     {
@@ -752,31 +318,20 @@ function enterRoom() {
                 </tbody>
             </table>
 
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-</section>
+</div>
 
 <footer class="footer">
     <div class="copy">&copy; 2022 sd.Jatek.Web</div>
 </footer>
 
-</html>
+</body>
 
 <script>
-
-function enterRoom() {
-    var id = document.getElementById("groupId").value;
-    var url = "https://localhost:5005/Game/EnterRoom?roomId=" + id;
-    window.location.href = url;
-}
-
-function createRoom() {
-    var id = document.getElementById("roundsId").value;
-    var url = "https://localhost:5005/Game/CreateRoom?rounds=" + id;
-    window.location.href = url;
-}
+    function enterRoom() {
+        var id = document.getElementById("groupId").value;
+        var url = "https://localhost:5005/Game/EnterRoom?roomId=" + id;
+        window.location.href = url;
+    }
 </script>
--->

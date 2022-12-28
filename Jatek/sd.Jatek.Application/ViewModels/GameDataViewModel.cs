@@ -1,6 +1,6 @@
-﻿namespace sd.Jatek.Application.Dtos
+﻿namespace sd.Jatek.Application.ViewModels
 {
-    public class GameDataDto
+    public class GameDataViewModel
     {
         public int Rounds { get; set; }
         public string Players { get; set; } = default!;

@@ -1,10 +1,10 @@
 ﻿using MediatR;
 
-namespace sd.Jatek.Application.Querys
+namespace sd.Jatek.Application.Commands
 {
-    public class RightGuessQuery : IRequest<bool>
+    public class RightGuessCommand : IRequest
     {
-        public RightGuessQuery(string roomId, string playerId)
+        public RightGuessCommand(string roomId, string playerId)
         {
             RoomId = roomId;
             PlayerId = playerId;

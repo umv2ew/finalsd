@@ -27,8 +27,8 @@ namespace sd.Statisztika.Application.QueryHandlers
                 PlayedGames = stat.PlayedGames,
                 Points = stat.Points,
                 NumberOfWins = stat.NumberOfWins,
-                Winrate = stat.NumberOfWins / stat.PlayedGames * 100,
-                PointPerGame = stat.Points / stat.PlayedGames,
+                Winrate = (decimal)stat.NumberOfWins / stat.PlayedGames * 100,
+                PointPerGame = (decimal)stat.Points / stat.PlayedGames,
             };
         }
     }

@@ -3,7 +3,7 @@ using sd.Jatek.Application.Dtos;
 
 namespace sd.Jatek.Application.Commands
 {
-    public class CreateRoomCommand : IRequest<string>
+    public class CreateRoomCommand : IRequest
     {
         public CreateRoomCommand(RoomDto dto, bool createRoom)
         {
