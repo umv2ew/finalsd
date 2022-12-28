@@ -103,7 +103,7 @@ namespace sd.Jatek.Web.Controllers
         {
             await _mediator.Send(new RemovePlayerCommand(Request.Cookies["UserId"]));
 
-            return RedirectToAction("StartGame");
+            return Redirect("https://localhost:7187/Game/StartGame");
         }
 
         [HttpPost("Send")]

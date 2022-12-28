@@ -18,6 +18,8 @@ namespace sd.Jatek.Application.QueryHandlers
                 .Select(p => p.PlayerId)
                 .ToList();
 
+            players.Reverse();
+
             if (players.Count > 1)
             {
                 var painter = _context.Players

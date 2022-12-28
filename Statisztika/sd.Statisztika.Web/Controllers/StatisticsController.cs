@@ -1,7 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using sd.Statisztika.Application.Commands;
-using sd.Statisztika.Application.Dtos;
 using sd.Statisztika.Application.Queries;
 using sd.Statisztika.Application.ViewModels;
 
