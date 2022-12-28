@@ -11,58 +11,58 @@ Desk lamp
 Notepad
 Paper clips
 Binder
-Calculator 
-Calendar 
-Sticky Notes 
+Calculator
+Calendar
+Sticky Notes
 Pens
 Pencils
 Notebook
 Book
-Chairs 
+Chairs
 Coffee cup
 Chairs
 Coffee mug
-Thermos 
+Thermos
 Hot cup
 Glue
 Clipboard
 Paperclips
-Chocolate 
-Secretary 
+Chocolate
+Secretary
 Work
 Paperwork
-Workload 
+Workload
 Employee
 Boredom
 Coffee
-Golf 
+Golf
 Laptop
 Sandcastle
 Monday
 Vanilla
 Bamboo
 Sneeze
-Scratch 
-Celery 
+Scratch
+Celery
 Hammer
-Frog 
+Frog
 Tennis
 Hot dog
 Pants
 Bridge
 Bubblegum
 Candy bar
-Bucket 
-Skiing 
+Bucket
+Skiing
 Sledding
-Snowboarding 
-Snowman 
+Snowboarding
+Snowman
 Polar bear
 Cream
 Waffle
 Pancakes
 Ice cream
-Sundae 
+Sundae
 beach
 Sunglasses
 Surfboard
@@ -93,7 +93,7 @@ Money
 Smiley face
 Umbrella
 Picnic basket
-Teddy bear 
+Teddy bear
 Ambulance
 Ancient Pyramids
 Bacteria
@@ -111,7 +111,7 @@ Blanket
 Seaweed
 Flame
 Bubble
-Hair 
+Hair
 Tooth
 Leaf
 Worm
@@ -153,35 +153,35 @@ Piano
 Pen
 Hat
 Shoes
-Socks 
+Socks
 Jeans
 Hair Gel
 Keyboard
 Bra
 Jacket
 Tie
-Bandage 
+Bandage
 Scarf
 Hair Brush
 Printer
 Cork Board
-Office Supplies 
+Office Supplies
 Cork Board
 Paperweight
-Letter Opener 
+Letter Opener
 Post-It notes
 Pen holder
-File cabinet 
+File cabinet
 Boss
 Water-cooler
-Commute 
+Commute
 Lunch break
 Employer
 Late
 Passion
 Ambition
 Pay
-Pride 
+Pride
 Unemployment
 Job
 Hire
@@ -189,19 +189,19 @@ Lazy
 Worried
 Tired
 Poverty
-Olympics 
+Olympics
 Recycle
 Black hole
-Applause 
+Applause
 Blizzard
 Sunburn
 Time Machine
 Laceq
-Atlantis 
+Atlantis
 Swamp
 Sunscreen
 Dictionary
-Century 
+Century
 Sculpture
 Sneaker
 Admiral
@@ -213,7 +213,7 @@ Volleyball
 Pitcher
 Catcher
 Batter
-Home Plate 
+Home Plate
 Swing
 Cheerleader
 Pumpkin
@@ -232,19 +232,19 @@ Whiteboard
 Knitting
 Thunderstorm
 Bubble wrap
-Thermometer 
+Thermometer
 Skipping Rope
 Canned Food
-Waffles 
+Waffles
 Chalkboard
 Home run
 Milkshake
 Snowball fight
-Bug zapper 
+Bug zapper
 Pot of gold
 Loudspeaker
 Wind chimes
-Musical instrument 
+Musical instrument
 Bird feeder
 Bookworm
 Wig
@@ -261,11 +261,11 @@ Christmas tree
 Daytime
 Earthquake
 Frog legs
-Junkyard 
-Vomiting 
+Junkyard
+Vomiting
 Aardvark
-Dolphin 
- Rainforest
+Dolphin
+Rainforest
 Spiders Web
 Great Wall of China
 Bat
@@ -282,7 +282,7 @@ Underwear
 Quicksand
 Stomach ache
 Vacuum cleaner
-Swiss cheese 
+Swiss cheese
 Cream cheese
 Pizza crust
 Bruise
@@ -297,7 +297,7 @@ Algae
 Slug
 Antenna
 Butterfly Wing
-Parasite 
+Parasite
 Pollen
 Asteroid
 Family
@@ -305,8 +305,8 @@ Painting
 Sketch
 Wallpaper
 Chandelier
-Ketchup 
+Ketchup
 Plane ticket
 Fruit juice
 Slippers
-Sneakers 
+Sneakers

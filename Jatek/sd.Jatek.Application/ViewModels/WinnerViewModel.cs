@@ -8,6 +8,7 @@
             Points = points;
             Winners = winners;
         }
+
         public bool Tie { get; set; }
         public int Points { get; set; }
         public string Winners { get; set; }

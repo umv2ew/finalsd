@@ -13,6 +13,7 @@ namespace sd.Statisztika.Application.QueryHandlers
         {
             _context = context;
         }
+
         public async Task<GetStatsViewModel> Handle(GetStatsQuery request, CancellationToken cancellationToken)
         {
             var stat = await _context.Statistics.FirstOrDefaultAsync(x => x.UserId == request.PlayerId, cancellationToken);

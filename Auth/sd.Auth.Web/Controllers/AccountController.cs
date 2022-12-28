@@ -23,16 +23,14 @@ namespace sd.Auth.Web.Controllers
             _clientFactory = clientFactory;
         }
 
-        [Route("Register")]
-        [HttpGet]
+        [HttpGet("Register")]
         [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
         }
 
-        [Route("Register")]
-        [HttpPost]
+        [HttpPost("Register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -70,16 +68,14 @@ namespace sd.Auth.Web.Controllers
             return View(model);
         }
 
-        [Route("Login")]
-        [HttpGet]
+        [HttpGet("Login")]
         [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
 
-        [Route("Login")]
-        [HttpPost]
+        [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel user)
         {
@@ -105,7 +101,7 @@ namespace sd.Auth.Web.Controllers
             return View(user);
         }
 
-        [Route("Logout")]
+        [HttpGet("Logout")]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

@@ -10,6 +10,7 @@ namespace sd.Jatek.Application.Commands
             Dto = dto;
             CreateRoom = createRoom;
         }
+
         public RoomDto Dto { get; set; }
         public bool CreateRoom { get; set; }
     }

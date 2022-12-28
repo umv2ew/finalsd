@@ -22,6 +22,7 @@ namespace sd.Jatek.Application.Models
         {
             return Groups.RemoveFromGroupAsync(Context.ConnectionId, group);
         }
+
         public async Task SendMessage(string group, string user, string message)
         {
             await Clients.Group(group).SendAsync("ReceiveMessage", user, message);

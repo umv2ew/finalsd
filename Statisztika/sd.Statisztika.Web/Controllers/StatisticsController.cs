@@ -16,18 +16,10 @@ namespace sd.Statisztika.Web.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
-        [Route("GetStatisticsById")]
+        [HttpGet("GetStatisticsById")]
         public async Task<GetStatsViewModel> GetStatisticsById(string id)
         {
             return await _mediator.Send(new GetStatsQuery(id));
-        }
-
-        [HttpPut]
-        [Route("UpdateStatistics")]
-        public async Task<Unit> UpdateStatistics(UpdateStatisticsDto dto)
-        {
-            return await _mediator.Send(new UpdateStatisticsCommand(dto));
         }
     }
 }
