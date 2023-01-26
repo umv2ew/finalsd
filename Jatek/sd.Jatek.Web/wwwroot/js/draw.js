@@ -255,7 +255,6 @@ connection.on("RecieveUpdateCanvas", function (prevX, prevY, currX, currY, hubWi
 
 connection.on("RecieveClearCanvas", function () {
     ctx.clearRect(0, 0, w, h);
-    document.getElementById("canvasimg").style.display = "none";
 });
 
 function changeColor(obj) {
