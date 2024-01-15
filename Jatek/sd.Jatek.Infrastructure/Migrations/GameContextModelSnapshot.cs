@@ -26,6 +26,9 @@ namespace sd.Jatek.Infrastructure.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("Place")
+                        .HasColumnType("int");
+
                     b.Property<string>("PlayerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

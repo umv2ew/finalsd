@@ -5,17 +5,12 @@ using sd.Jatek.Application.Querys;
 
 namespace sd.Jatek.Application.Models
 {
-    public class ChatHub : Hub
+    public class GameHub : Hub
     {
         private readonly ISender _mediator;
-        public ChatHub(ISender mediator)
+        public GameHub(ISender mediator)
         {
             _mediator = mediator;
-        }
-
-        public async Task SendMessage(string user, string message)
-        {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
 
         public Task JoinGroup(string group)
@@ -23,9 +18,14 @@ namespace sd.Jatek.Application.Models
             return Groups.AddToGroupAsync(Context.ConnectionId, group);
         }
 
-        public Task LeaveRoom(string roomName)
+        public Task LeaveRoom(string group)
         {
-            return Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
+            return Groups.RemoveFromGroupAsync(Context.ConnectionId, group);
+        }
+
+        public async Task SendMessage(string group, string user, string message)
+        {
+            await Clients.Group(group).SendAsync("ReceiveMessage", user, message);
         }
 
         public async Task StartGame(string group)
@@ -37,9 +37,9 @@ namespace sd.Jatek.Application.Models
 
         public async Task RightGuess(string group, string playerId)
         {
-            var over = await _mediator.Send(new RightGuessQuery(group, playerId));
+            await _mediator.Send(new RightGuessCommand(group, playerId));
 
-            await Clients.Group(group).SendAsync("RecieveRightGuesses", over);
+            await Clients.Group(group).SendAsync("RecieveRightGuesses");
         }
 
         public async Task GetWord(string group)
@@ -81,12 +81,12 @@ namespace sd.Jatek.Application.Models
 
         public async Task UpdateCanvas(string group, int prevX, int prevY, int currX, int currY, int width, string color)
         {
-            await Clients.Group(group).SendAsync("updateDot", prevX, prevY, currX, currY, width, color, true);
+            await Clients.Group(group).SendAsync("RecieveUpdateCanvas", prevX, prevY, currX, currY, width, color);
         }
 
         public async Task ClearCanvas(string group)
         {
-            await Clients.Group(group).SendAsync("clearCanvas", true);
+            await Clients.Group(group).SendAsync("RecieveClearCanvas");
         }
     }
 }

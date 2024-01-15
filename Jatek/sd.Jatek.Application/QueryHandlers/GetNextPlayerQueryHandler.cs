@@ -21,16 +21,23 @@ namespace sd.Jatek.Application.QueryHandlers
             if (players.Count > 1)
             {
                 var painter = _context.Players
-                    .FirstOrDefault(p => p.RoomId == request.RoomId && p.PlayerRole == Domain.PlayerRole.Painter)
-                    .PlayerId;
+                    .FirstOrDefault(p => p.RoomId == request.RoomId && p.PlayerRole == Domain.PlayerRole.Painter);
 
-                var nextPainterId = players.SkipWhile(x => x != painter)
-                    .Skip(1)
-                    .DefaultIfEmpty(players[0])
-                    .FirstOrDefault();
+                var orderByMax = _context.Players.Where(p => p.RoomId == request.RoomId).OrderBy(p => p.Place);
+
+                string nextPainterId = "";
+                
+                if (painter.Place == orderByMax.Last().Place)
+                {
+                    nextPainterId = orderByMax.First().PlayerId;
+                }
+                else
+                {
+                    nextPainterId = orderByMax.First(pl => pl.Place > painter.Place).PlayerId;
+                }
 
                 _context.Players
-                    .FirstOrDefault(p => p.RoomId == request.RoomId && p.PlayerId == painter)
+                    .FirstOrDefault(p => p.RoomId == request.RoomId && p.PlayerId == painter.PlayerId)
                     .PlayerRole = Domain.PlayerRole.Guesser;
 
                 _context.Players
@@ -39,7 +46,7 @@ namespace sd.Jatek.Application.QueryHandlers
 
                 var room = _context.Rooms.FirstOrDefault(r => r.RoomId == request.RoomId);
 
-                var roundOver = nextPainterId == players.First();
+                var roundOver = nextPainterId == orderByMax.First().PlayerId;
                 if (roundOver)
                 {
                     room.Rounds--;

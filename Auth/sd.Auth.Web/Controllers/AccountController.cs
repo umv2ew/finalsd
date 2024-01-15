@@ -23,16 +23,14 @@ namespace sd.Auth.Web.Controllers
             _clientFactory = clientFactory;
         }
 
-        [Route("Register")]
-        [HttpGet]
+        [HttpGet("Register")]
         [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
         }
 
-        [Route("Register")]
-        [HttpPost]
+        [HttpPost("Register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -70,16 +68,14 @@ namespace sd.Auth.Web.Controllers
             return View(model);
         }
 
-        [Route("Login")]
-        [HttpGet]
+        [HttpGet("Login")]
         [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
 
-        [Route("Login")]
-        [HttpPost]
+        [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel user)
         {
@@ -105,10 +101,12 @@ namespace sd.Auth.Web.Controllers
             return View(user);
         }
 
-        [Route("Logout")]
+        [HttpGet("Logout")]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+            Response.Cookies.Delete("UserId");
+            Response.Cookies.Delete("UserName");
             return RedirectToAction("Index", "Home");
         }
 
@@ -120,23 +118,21 @@ namespace sd.Auth.Web.Controllers
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, siteUri) { };
 
-            StatisztikaViewModel viewModel = new();
+            StatisticViewModel viewModel = new();
 
             var httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
-                viewModel = JsonConvert.DeserializeObject<StatisztikaViewModel>(result);
+                viewModel = JsonConvert.DeserializeObject<StatisticViewModel>(result);
             }
-            StatisticsViewModel model = new()
+            else
             {
-                PlayerName = Request.Cookies["UserName"],
-                PlayedGames = viewModel.PlayedGames,
-                NumberOfWins = viewModel.NumberOfWins,
-                Points = viewModel.Points,
-            };
+                ModelState.AddModelError(string.Empty, "Either this feature is currently not working or there is no saved statistic");
+            }
+            viewModel.User = Request.Cookies["UserName"];
 
-            return View(model);
+            return View(viewModel);
         }
     }
 }

@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Jatek\sd.Jatek.Integration\sd.Jatek.Integration.csproj" />
-    <ProjectReference Include="..\sd.Statisztika.Domain\sd.Statisztika.Domain.csproj" />
     <ProjectReference Include="..\sd.Statisztika.Infrastructure\sd.Statisztika.Infrastructure.csproj" />
   </ItemGroup>
 

@@ -12,7 +12,7 @@ using sd.Auth.Infrastructure;
 namespace sd.Auth.Infrastructure.Migrations
 {
     [DbContext(typeof(AuthContext))]
-    [Migration("20221219215738_init")]
+    [Migration("20221225134858_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

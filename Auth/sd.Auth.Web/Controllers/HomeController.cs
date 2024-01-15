@@ -14,13 +14,8 @@ namespace sd.Auth.Web.Controllers
             _logger = logger;
         }
 
-        [Route("Index")]
+        [HttpGet("Index")]
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
         {
             return View();
         }

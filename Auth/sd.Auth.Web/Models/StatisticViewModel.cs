@@ -1,7 +1,8 @@
-﻿namespace sd.Statisztika.Application.ViewModels
+﻿namespace sd.Auth.Web.Models
 {
-    public class GetStatsViewModel
+    public class StatisticViewModel
     {
+        public string User { get; set; } = default!;
         public int PlayedGames { get; set; }
         public int Points { get; set; }
         public int NumberOfWins { get; set; }

@@ -11,8 +11,8 @@ using sd.Jatek.Infrastructure;
 namespace sd.Jatek.Infrastructure.Migrations
 {
     [DbContext(typeof(GameContext))]
-    [Migration("20221223144330_add-isPublic")]
-    partial class addisPublic
+    [Migration("20221225134725_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

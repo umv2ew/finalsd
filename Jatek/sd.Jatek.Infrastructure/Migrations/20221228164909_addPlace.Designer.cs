@@ -11,8 +11,8 @@ using sd.Jatek.Infrastructure;
 namespace sd.Jatek.Infrastructure.Migrations
 {
     [DbContext(typeof(GameContext))]
-    [Migration("20221219234114_init")]
-    partial class init
+    [Migration("20221228164909_addPlace")]
+    partial class addPlace
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,6 +27,9 @@ namespace sd.Jatek.Infrastructure.Migrations
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Place")
+                        .HasColumnType("int");
 
                     b.Property<string>("PlayerId")
                         .IsRequired()
@@ -55,6 +58,9 @@ namespace sd.Jatek.Infrastructure.Migrations
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("bit");
 
                     b.Property<int>("RightGuess")
                         .HasColumnType("int");

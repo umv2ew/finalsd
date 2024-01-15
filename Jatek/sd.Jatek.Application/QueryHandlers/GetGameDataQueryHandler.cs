@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using sd.Jatek.Application.Dtos;
 using sd.Jatek.Application.Querys;
+using sd.Jatek.Application.ViewModels;
 using sd.Jatek.Infrastructure;
 
 namespace sd.Jatek.Application.QueryHandlers
 {
-    public class GetGameDataQueryHandler : IRequestHandler<GetGameDataQuery, GameDataDto>
+    public class GetGameDataQueryHandler : IRequestHandler<GetGameDataQuery, GameDataViewModel>
     {
         private readonly GameContext _context;
 
@@ -14,7 +15,7 @@ namespace sd.Jatek.Application.QueryHandlers
             _context = context;
         }
 
-        public async Task<GameDataDto> Handle(GetGameDataQuery request, CancellationToken cancellationToken)
+        public async Task<GameDataViewModel> Handle(GetGameDataQuery request, CancellationToken cancellationToken)
         {
             var rounds = _context.Rooms.FirstOrDefault(x => x.RoomId == request.RoomId).Rounds;
 
@@ -25,7 +26,7 @@ namespace sd.Jatek.Application.QueryHandlers
 
             var resultPlayers = String.Join("\n", players);
 
-            return new GameDataDto
+            return new GameDataViewModel
             {
                 Players = resultPlayers,
                 playersNumber = players.Count,

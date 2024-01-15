@@ -11,8 +11,8 @@ using sd.Statisztika.Infrastructure;
 namespace sd.Statisztika.Infrastructure.Migrations
 {
     [DbContext(typeof(StatisticsContext))]
-    [Migration("20221221180715_configuration")]
-    partial class configuration
+    [Migration("20221225134433_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

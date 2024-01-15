@@ -24,36 +24,15 @@ namespace sd.Jatek.Web.Controllers
             _mediator = mediator;
         }
 
-        [Route("CreateRoom")]
+        [HttpGet("CreateRoom")]
         public async Task<IActionResult> Index(string roomId, int rounds)
         {
             ViewBag.RoomId = roomId;
             ViewBag.Rounds = rounds;
             return View();
         }
-        /*
-        public async Task<IActionResult> Index(int rounds)
-        {
-            ViewBag.Rounds = rounds;
-            var roomId = Guid.NewGuid().ToString();
 
-            var userId = Request.Cookies["UserId"];
-
-            var created = await _mediator.Send(new CreateRoomCommand(
-                new RoomDto
-                {
-                    PlayerId = userId,
-                    RoomId = roomId,
-                    PlayerName = Request.Cookies["UserName"],
-                    Rounds = rounds,
-                }, true));
-
-            ViewBag.RoomId = created == "" ? roomId : created;
-            return View();
-        }
-         */
-
-        [Route("EnterRoom")]
+        [HttpGet("EnterRoom")]
         public async Task<IActionResult> EnterRoom(string roomId)
         {
             ViewBag.RoomId = roomId;
@@ -71,8 +50,7 @@ namespace sd.Jatek.Web.Controllers
             return View("Index");
         }
 
-        [HttpGet]
-        [Route("StartGame")]
+        [HttpGet("StartGame")]
         public async Task<IActionResult> StartGame()
         {
             ViewData["rooms"] = await _mediator.Send(new GetPublicRoomsQuery());
@@ -80,8 +58,7 @@ namespace sd.Jatek.Web.Controllers
             return View();
         }
 
-        [HttpPost]
-        [Route("StartGame")]
+        [HttpPost("StartGame")]
         public async Task<IActionResult> StartGame(GameViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -90,7 +67,7 @@ namespace sd.Jatek.Web.Controllers
 
                 var userId = Request.Cookies["UserId"];
 
-                var created = await _mediator.Send(new CreateRoomCommand(
+                await _mediator.Send(new CreateRoomCommand(
                     new RoomDto
                     {
                         PlayerId = userId,
@@ -108,39 +85,28 @@ namespace sd.Jatek.Web.Controllers
             return View(viewModel);
         }
 
-        [HttpGet]
-        [Route("GetRole")]
+        [HttpGet("GetRole")]
         public async Task<string> GetRole(string id)
         {
             return await _mediator.Send(new GetRoleByIdQuery(Request.Cookies["UserId"], id));
         }
 
 
-        [HttpGet]
-        [Route("GetPainterFinished")]
+        [HttpGet("GetPainterFinished")]
         public async Task<string> GetPainterFinished(string id)
         {
             return await _mediator.Send(new GetPainterFinishedQuery(id));
         }
 
-        [HttpGet]
-        [Route("GetRoundOver")]
-        public async Task<string> GetRoundOver(string id)
-        {
-            return await _mediator.Send(new GetRoundOverQuery(id));
-        }
-
-        [HttpGet]
-        [Route("RemovePlayer")]
+        [HttpGet("RemovePlayer")]
         public async Task<IActionResult> RemovePlayer()
         {
             await _mediator.Send(new RemovePlayerCommand(Request.Cookies["UserId"]));
 
-            return RedirectToAction("StartGame");
+            return Redirect("https://localhost:7187/Game/StartGame");
         }
 
-        [HttpPost]
-        [Route("Send")]
+        [HttpPost("Send")]
         public async Task<JsonResult> Post([FromBody] StatisticsIntegrationDto dto)
         {
             await _publishEndpoint.Publish(dto);

@@ -30,4 +30,10 @@
     <ProjectReference Include="..\sd.Jatek.Integration\sd.Jatek.Integration.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Files\Words.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

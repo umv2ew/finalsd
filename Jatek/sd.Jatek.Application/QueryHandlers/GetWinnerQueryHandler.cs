@@ -1,11 +1,11 @@
 ﻿using MediatR;
-using sd.Jatek.Application.Dtos;
 using sd.Jatek.Application.Querys;
+using sd.Jatek.Application.ViewModels;
 using sd.Jatek.Infrastructure;
 
 namespace sd.Jatek.Application.QueryHandlers
 {
-    public class GetWinnerQueryHandler : IRequestHandler<GetWinnerQuery, WinnerDto>
+    public class GetWinnerQueryHandler : IRequestHandler<GetWinnerQuery, WinnerViewModel>
     {
         private readonly GameContext _context;
 
@@ -14,7 +14,7 @@ namespace sd.Jatek.Application.QueryHandlers
             _context = context;
         }
 
-        public async Task<WinnerDto> Handle(GetWinnerQuery request, CancellationToken cancellationToken)
+        public async Task<WinnerViewModel> Handle(GetWinnerQuery request, CancellationToken cancellationToken)
         {
             var max = _context.Players
                 .Where(p => p.RoomId == request.RoomId)
@@ -25,7 +25,7 @@ namespace sd.Jatek.Application.QueryHandlers
                 .Where(p => p.RoomId == request.RoomId && p.Points == max)
                 .Select(p => p.PlayerName);
 
-            return new WinnerDto(
+            return new WinnerViewModel(
                 winners.Count() > 1,
                 max,
                 String.Join(", ", winners.ToArray())

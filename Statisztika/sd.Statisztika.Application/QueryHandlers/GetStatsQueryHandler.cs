@@ -13,6 +13,7 @@ namespace sd.Statisztika.Application.QueryHandlers
         {
             _context = context;
         }
+
         public async Task<GetStatsViewModel> Handle(GetStatsQuery request, CancellationToken cancellationToken)
         {
             var stat = await _context.Statistics.FirstOrDefaultAsync(x => x.UserId == request.PlayerId, cancellationToken);
@@ -26,7 +27,9 @@ namespace sd.Statisztika.Application.QueryHandlers
             {
                 PlayedGames = stat.PlayedGames,
                 Points = stat.Points,
-                NumberOfWins = stat.NumberOfWins
+                NumberOfWins = stat.NumberOfWins,
+                Winrate = ((decimal)stat.NumberOfWins / stat.PlayedGames * 100).ToString("0.####"),
+                PointPerGame = ((decimal)stat.Points / stat.PlayedGames).ToString("0.####"),
             };
         }
     }

@@ -14,6 +14,7 @@ namespace sd.Jatek.Infrastructure.EntityConfigurations
             builder.Property(x => x.PlayerName);
             builder.Property(x => x.PlayerRole);
             builder.Property(x => x.Points);
+            builder.Property(x => x.Place);
         }
     }
 }

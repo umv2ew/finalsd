@@ -4,8 +4,7 @@ namespace sd.Jatek.Web.Models
 {
     public class GameViewModel
     {
-        [Required(ErrorMessage = "Egy kör számot meg kell adni")]
-        [Range(1, 10, ErrorMessage = "Csak 1 és 10 közötti kör lehetséges")]
+        [Required]
         public int Rounds { get; set; }
         public bool Public { get; set; }
     }

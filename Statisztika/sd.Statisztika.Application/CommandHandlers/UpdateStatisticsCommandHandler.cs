@@ -8,10 +8,12 @@ namespace sd.Statisztika.Application.CommandHandlers
     public class UpdateStatisticsCommandHandler : IRequestHandler<UpdateStatisticsCommand>
     {
         private readonly StatisticsContext _context;
+
         public UpdateStatisticsCommandHandler(StatisticsContext context)
         {
             _context = context;
         }
+
         public async Task<Unit> Handle(UpdateStatisticsCommand request, CancellationToken cancellationToken)
         {
             var dto = request.Dto;
