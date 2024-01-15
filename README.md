@@ -1,0 +1,1 @@
+Dokumentáció: github/wiki
