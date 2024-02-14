@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  sd.jatek.web:
+    image: ${DOCKER_REGISTRY-}sdjatekweb
+    build:
+      context: .
+      dockerfile: Jatek/sd.Jatek.Web/Dockerfile
+
+  sd.statisztika.web:
+    image: ${DOCKER_REGISTRY-}sdstatisztikaweb
+    build:
+      context: .
+      dockerfile: Statisztika/sd.Statisztika.Web/Dockerfile
+
+
+  sd.apigateway.web:
+    image: ${DOCKER_REGISTRY-}sdapigatewayweb
+    build:
+      context: .
+      dockerfile: ApiGateway/sd.ApiGateway.Web/Dockerfile
+
+
+  sd.auth.web:
+    image: ${DOCKER_REGISTRY-}sdauthweb
+    build:
+      context: .
+      dockerfile: Auth/sd.Auth.Web/Dockerfile
+
+  redis:
+    image: redis
