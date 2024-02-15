@@ -42,7 +42,7 @@ async function GameOver() {
 function GetRole(roomId) {
     $.ajax({
         type: 'GET',
-        url: 'https://localhost:5005/Game/GetRole?id=' + roomId,
+        url: 'http://localhost:5005/Game/GetRole?id=' + roomId,
         dataType: 'text',
         success: function (data) {
             if (data == "Painter") {
@@ -70,7 +70,7 @@ function GetRole(roomId) {
 function GetPainterFinished(roomId) {
     $.ajax({
         type: 'GET',
-        url: 'https://localhost:5005/Game/GetPainterFinished?id=' + roomId,
+        url: 'http://localhost:5005/Game/GetPainterFinished?id=' + roomId,
         dataType: 'text',
         success: function (data) {
             if (data == "true") {
@@ -176,17 +176,17 @@ connection.on("RecieveWinnerOnGameOver", function (tie, winningPoints, winners) 
 
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:5005/Game/Send',
+        url: 'http://localhost:5005/Game/Send',
         data: JSON.stringify(dto),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
 
             if (confirm(message)) {
-                var url = "https://localhost:7187/Account/Profile";
+                var url = "http://localhost/Account/Profile";
                 window.location.href = url;
             } else {
-                var url = "https://localhost:7187/Account/Profile";
+                var url = "http://localhost/Account/Profile";
                 window.location.href = url;
             }
         },

@@ -9,7 +9,7 @@ builder.Services.AddControllersWithViews();
 
 var connectionString = builder.Configuration.GetConnectionString("SqlServer");
 builder.Services.AddDbContext<AuthContext>(options =>
-     options.UseSqlServer(connectionString));
+     options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure()));
 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
       .AddEntityFrameworkStores<AuthContext>()
@@ -55,5 +55,16 @@ app.UseAuthentication();
 app.MapControllerRoute(
     name: "Default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<AuthContext>();
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        context.Database.Migrate();
+    }
+}
 
 app.Run();

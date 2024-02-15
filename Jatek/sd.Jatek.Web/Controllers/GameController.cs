@@ -77,7 +77,7 @@ namespace sd.Jatek.Web.Controllers
                         IsPublic = viewModel.Public,
                     }, true));
 
-                return Redirect("https://localhost:5005/Game/CreateRoom?roomId=" + roomId + "&Rounds=" + viewModel.Rounds);
+                return Redirect("http://localhost:5005/Game/CreateRoom?roomId=" + roomId + "&Rounds=" + viewModel.Rounds);
             }
 
             ViewData["rooms"] = await _mediator.Send(new GetPublicRoomsQuery());
@@ -103,7 +103,7 @@ namespace sd.Jatek.Web.Controllers
         {
             await _mediator.Send(new RemovePlayerCommand(Request.Cookies["UserId"]));
 
-            return Redirect("https://localhost:7187/Game/StartGame");
+            return Redirect("http://localhost:7187/Game/StartGame");
         }
 
         [HttpPost("Send")]

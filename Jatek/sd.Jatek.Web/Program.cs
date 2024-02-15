@@ -20,6 +20,17 @@ builder.Services.AddMassTransit(x =>
     x.UsingRabbitMq();
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "_myAllowSpecificOrigins",
+                      policy =>
+                      {
+                          policy.WithOrigins("http://example.com");
+                          policy.WithMethods("GET", "POST");
+                          policy.AllowCredentials();
+                      });
+});
+
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
@@ -44,5 +55,16 @@ app.MapControllerRoute(
     pattern: "{controller=Game}/{action=StartGame}/{id?}");
 
 app.MapHub<GameHub>("/GameHub");
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<GameContext>();
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        context.Database.Migrate();
+    }
+}
 
 app.Run();

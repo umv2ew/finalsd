@@ -6,26 +6,50 @@ services:
     build:
       context: .
       dockerfile: Jatek/sd.Jatek.Web/Dockerfile
+    depends_on: 
+      - sql-server-db
+      - redis
+      - rabbitmq 
 
   sd.statisztika.web:
     image: ${DOCKER_REGISTRY-}sdstatisztikaweb
     build:
       context: .
       dockerfile: Statisztika/sd.Statisztika.Web/Dockerfile
-
+    depends_on:
+      - sql-server-db
+      - rabbitmq 
 
   sd.apigateway.web:
     image: ${DOCKER_REGISTRY-}sdapigatewayweb
     build:
       context: .
       dockerfile: ApiGateway/sd.ApiGateway.Web/Dockerfile
-
+    depends_on:
+      - sql-server-db
 
   sd.auth.web:
     image: ${DOCKER_REGISTRY-}sdauthweb
     build:
       context: .
       dockerfile: Auth/sd.Auth.Web/Dockerfile
+    depends_on:
+      - sql-server-db
+
+  sql-server-db:
+    container_name: sql-server-db
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "Pass@word"
+      ACCEPT_EULA: "Y"
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+        - 5672:5672
 
   redis:
     image: redis
