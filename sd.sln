@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sd.Statisztika.Infrastructu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sd.Statisztika.Web", "Statisztika\sd.Statisztika.Web\sd.Statisztika.Web.csproj", "{C5B838C7-7B95-4B88-8EDA-2D1952FBD363}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sd.Jatek.Minal.Api", "..\sd.Jatek.Minal.Api\sd.Jatek.Minal.Api.csproj", "{45D05E49-CCC7-4928-8B22-99B5846F4A40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sd.Jatek.MinimalApi", "..\sd.Jatek.MinimalApi\sd.Jatek.MinimalApi.csproj", "{E00EE4C1-9D9A-4453-80AB-6492A3C8DA88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,10 +97,10 @@ Global
 		{C5B838C7-7B95-4B88-8EDA-2D1952FBD363}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5B838C7-7B95-4B88-8EDA-2D1952FBD363}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5B838C7-7B95-4B88-8EDA-2D1952FBD363}.Release|Any CPU.Build.0 = Release|Any CPU
-		{45D05E49-CCC7-4928-8B22-99B5846F4A40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45D05E49-CCC7-4928-8B22-99B5846F4A40}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45D05E49-CCC7-4928-8B22-99B5846F4A40}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45D05E49-CCC7-4928-8B22-99B5846F4A40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E00EE4C1-9D9A-4453-80AB-6492A3C8DA88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E00EE4C1-9D9A-4453-80AB-6492A3C8DA88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E00EE4C1-9D9A-4453-80AB-6492A3C8DA88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E00EE4C1-9D9A-4453-80AB-6492A3C8DA88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -119,7 +119,7 @@ Global
 		{AEE4671F-752F-4A69-88BD-B22FE418E114} = {BD0DDA21-CBB0-498F-A19A-96A90738C303}
 		{D73C507E-2C7F-478F-B1BE-9C02CA115078} = {BD0DDA21-CBB0-498F-A19A-96A90738C303}
 		{C5B838C7-7B95-4B88-8EDA-2D1952FBD363} = {BD0DDA21-CBB0-498F-A19A-96A90738C303}
-		{45D05E49-CCC7-4928-8B22-99B5846F4A40} = {BA659A4C-D30C-4B5F-91AA-3C8C96C89EB2}
+		{E00EE4C1-9D9A-4453-80AB-6492A3C8DA88} = {BA659A4C-D30C-4B5F-91AA-3C8C96C89EB2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7944C71A-D59C-4F47-8EC9-B5F029C6AB17}

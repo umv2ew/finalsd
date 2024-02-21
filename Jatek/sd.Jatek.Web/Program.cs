@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using sd.Jatek.Application.Models;
 using sd.Jatek.Infrastructure;
+using sd.Jatek.Web.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ builder.Services.AddMassTransit(x =>
 });
 
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddHttpClient<IGameService, GameService>();
 
 var app = builder.Build();
 
@@ -41,7 +43,7 @@ app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Game}/{action=StartGame}/{id?}");
+    pattern: "{controller=Game}/{action=GetRole}");
 
 app.MapHub<GameHub>("/GameHub");
 

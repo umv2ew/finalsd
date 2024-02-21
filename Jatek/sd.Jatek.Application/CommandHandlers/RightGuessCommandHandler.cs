@@ -4,7 +4,7 @@ using sd.Jatek.Infrastructure;
 
 namespace sd.Jatek.Application.CommandHandlers
 {
-    public class RightGuessCommandHandler : IRequestHandler<RightGuessCommand>
+    public class RightGuessCommandHandler : IRequestHandler<RightGuessCommand, Unit>
     {
         private readonly GameContext _context;
         public RightGuessCommandHandler(GameContext context)

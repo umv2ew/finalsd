@@ -114,7 +114,7 @@ namespace sd.Auth.Web.Controllers
         public async Task<IActionResult> Profile()
         {
             var httpClient = _clientFactory.CreateClient();
-            Uri siteUri = new("https://localhost:7187/Statistics/GetStatisticsById?id=" + Request.Cookies["UserId"]);
+            Uri siteUri = new("https://192.168.18.105/Statistics/GetStatisticsById?id=" + Request.Cookies["UserId"]);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, siteUri) { };
 

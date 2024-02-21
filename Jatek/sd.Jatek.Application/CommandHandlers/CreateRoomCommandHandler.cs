@@ -6,7 +6,7 @@ using sd.Jatek.Infrastructure;
 
 namespace sd.Jatek.Application.CommandHandlers
 {
-    public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand>
+    public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, Unit>
     {
         private readonly GameContext _context;
         public CreateRoomCommandHandler(GameContext context)

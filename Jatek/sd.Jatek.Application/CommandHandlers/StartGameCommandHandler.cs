@@ -4,7 +4,7 @@ using sd.Jatek.Infrastructure;
 
 namespace sd.Jatek.Application.CommandHandlers
 {
-    public class StartGameCommandHandler : IRequestHandler<StartGameCommand>
+    public class StartGameCommandHandler : IRequestHandler<StartGameCommand, Unit>
     {
         private readonly GameContext _context;
         public StartGameCommandHandler(GameContext context)
