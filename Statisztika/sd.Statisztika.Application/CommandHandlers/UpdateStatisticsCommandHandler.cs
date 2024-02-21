@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Logging;
 using sd.Statisztika.Application.Commands;
 using sd.Statisztika.Domain;
 using sd.Statisztika.Infrastructure;
@@ -8,10 +9,12 @@ namespace sd.Statisztika.Application.CommandHandlers
     public class UpdateStatisticsCommandHandler : IRequestHandler<UpdateStatisticsCommand>
     {
         private readonly StatisticsContext _context;
+        private readonly ILogger<UpdateStatisticsCommandHandler> _logger;
 
-        public UpdateStatisticsCommandHandler(StatisticsContext context)
+        public UpdateStatisticsCommandHandler(StatisticsContext context, ILogger<UpdateStatisticsCommandHandler> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<Unit> Handle(UpdateStatisticsCommand request, CancellationToken cancellationToken)
@@ -28,12 +31,20 @@ namespace sd.Statisztika.Application.CommandHandlers
                     dto.Points,
                     dto.IsWon ? 1 : 0
                  ), cancellationToken);
+
+                _logger.LogInformation("Statistics for player {playerId} was created with points: {points}",
+                    dto.PlayerId,
+                    dto.Points);
             }
             else
             {
                 stat.Points += dto.Points;
                 stat.PlayedGames++;
                 stat.NumberOfWins += dto.IsWon ? 1 : 0;
+
+                _logger.LogInformation("Statistics for player {playerId} was updated with points: {points}",
+                    dto.PlayerId,
+                    dto.Points);
             }
 
             await _context.SaveChangesAsync(cancellationToken);
