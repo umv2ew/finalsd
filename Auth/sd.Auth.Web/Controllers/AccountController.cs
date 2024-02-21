@@ -13,14 +13,17 @@ namespace sd.Auth.Web.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IHttpClientFactory _clientFactory;
+        private readonly ILogger<AccountController> _logger;
 
         public AccountController(UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
-            IHttpClientFactory clientFactory)
+            IHttpClientFactory clientFactory,
+            ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _clientFactory = clientFactory;
+            _logger = logger;
         }
 
         [HttpGet("Register")]
@@ -56,6 +59,11 @@ namespace sd.Auth.Web.Controllers
 
                     Response.Cookies.Append("UserName", model.Username, cookieOptions);
                     Response.Cookies.Append("UserId", user.Id, cookieOptions);
+
+                    _logger.LogInformation("new user and cookies were created with username: {username} and userid: {userId}",
+                        model.Username,
+                        user.Id);
+
                     return RedirectToAction("StartGame", "Game");
                 }
 
@@ -63,8 +71,14 @@ namespace sd.Auth.Web.Controllers
                 {
                     ModelState.AddModelError("", error.Description);
                 }
+
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
+
+                _logger.LogInformation("Invalid Login Attempt with username: {username} and userid: {userId}",
+                    model.Username,
+                    user.Id);
             }
+
             return View(model);
         }
 
@@ -94,9 +108,17 @@ namespace sd.Auth.Web.Controllers
                     var loggedinUser = await _userManager.FindByNameAsync(user.Username);
                     Response.Cookies.Append("UserName", user.Username, cookieOptions);
                     Response.Cookies.Append("UserId", loggedinUser.Id, cookieOptions);
+
+                    _logger.LogInformation("Logged in with username: {username} and userid: {userId}",
+                        user.Username,
+                        loggedinUser.Id);
+
                     return RedirectToAction("StartGame", "Game");
                 }
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
+
+                _logger.LogInformation("Invalid Login Attempt username: {username}",
+                    user.Username);
             }
             return View(user);
         }
@@ -105,8 +127,14 @@ namespace sd.Auth.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+
+            _logger.LogInformation("User logged out username: {username}, userId: {userid}",
+                Request.Cookies["UserName"],
+                Request.Cookies["UserId"]);
+
             Response.Cookies.Delete("UserId");
             Response.Cookies.Delete("UserName");
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -120,6 +148,8 @@ namespace sd.Auth.Web.Controllers
 
             StatisticViewModel viewModel = new();
 
+            _logger.LogDebug("Asking for user: {user} statistics", Request.Cookies["UserName"]);
+
             var httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
             if (httpResponseMessage.IsSuccessStatusCode)
             {
@@ -131,6 +161,8 @@ namespace sd.Auth.Web.Controllers
                 ModelState.AddModelError(string.Empty, "Either this feature is currently not working or there is no saved statistic");
             }
             viewModel.User = Request.Cookies["UserName"];
+
+            _logger.LogDebug("Recieved user: {user} statistics: {@stats}", Request.Cookies["UserName"], viewModel);
 
             return View(viewModel);
         }
