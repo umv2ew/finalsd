@@ -25,10 +25,11 @@ namespace sd.Jatek.Web.Controllers
         }
 
         [HttpGet("CreateRoom")]
-        public async Task<IActionResult> Index(string roomId, int rounds)
+        public IActionResult Index(string roomId, int rounds)
         {
             ViewBag.RoomId = roomId;
             ViewBag.Rounds = rounds;
+
             return View();
         }
 
@@ -47,6 +48,7 @@ namespace sd.Jatek.Web.Controllers
             {
                 return RedirectToAction("StartGame");
             }
+
             return View("Index");
         }
 

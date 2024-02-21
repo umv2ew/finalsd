@@ -6,10 +6,11 @@ services:
     build:
       context: .
       dockerfile: Jatek/sd.Jatek.Web/Dockerfile
-    depends_on: 
-      - sql-server-db
-      - redis
-      - rabbitmq 
+    depends_on:
+      sql-server-db:
+        condition: service_started
+      rabbitmq :
+        condition: service_started
 
   sd.statisztika.web:
     image: ${DOCKER_REGISTRY-}sdstatisztikaweb
@@ -17,8 +18,10 @@ services:
       context: .
       dockerfile: Statisztika/sd.Statisztika.Web/Dockerfile
     depends_on:
-      - sql-server-db
-      - rabbitmq 
+      sql-server-db:
+        condition: service_started
+      rabbitmq :
+        condition: service_started
 
   sd.apigateway.web:
     image: ${DOCKER_REGISTRY-}sdapigatewayweb

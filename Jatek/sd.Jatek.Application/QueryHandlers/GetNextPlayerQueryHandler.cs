@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using sd.Jatek.Application.Querys;
 using sd.Jatek.Infrastructure;
 
@@ -7,58 +9,75 @@ namespace sd.Jatek.Application.QueryHandlers
     public class GetNextPlayerQueryHandler : IRequestHandler<GetNextPlayerQuery, bool>
     {
         private readonly GameContext _context;
-        public GetNextPlayerQueryHandler(GameContext context)
+        private readonly ILogger<GetNextPlayerQueryHandler> _logger;
+
+        public GetNextPlayerQueryHandler(GameContext context, ILogger<GetNextPlayerQueryHandler> logger)
         {
             _context = context;
+            _logger = logger;
         }
+
         public async Task<bool> Handle(GetNextPlayerQuery request, CancellationToken cancellationToken)
         {
-            var players = _context.Players
+            var players = await _context.Players
                 .Where(p => p.RoomId == request.RoomId)
                 .Select(p => p.PlayerId)
-                .ToList();
+                .ToListAsync(cancellationToken);
 
             if (players.Count > 1)
             {
-                var painter = _context.Players
-                    .FirstOrDefault(p => p.RoomId == request.RoomId && p.PlayerRole == Domain.PlayerRole.Painter);
+                var painter = await _context.Players
+                    .FirstOrDefaultAsync(p => p.RoomId == request.RoomId && p.PlayerRole == Domain.PlayerRole.Painter, cancellationToken);
 
-                var orderByMax = _context.Players.Where(p => p.RoomId == request.RoomId).OrderBy(p => p.Place);
+                var orderByMax = _context.Players
+                    .Where(p => p.RoomId == request.RoomId)
+                    .OrderBy(p => p.Place);
 
                 string nextPainterId = "";
-                
-                if (painter.Place == orderByMax.Last().Place)
-                {
-                    nextPainterId = orderByMax.First().PlayerId;
-                }
+
+                if (painter != null && painter.Place == orderByMax.Last().Place)
+                    nextPainterId = orderByMax
+                        .First()
+                        .PlayerId;
                 else
+                    nextPainterId = orderByMax
+                        .First(pl => pl.Place > painter.Place)
+                        .PlayerId;
+
+                var guesser = await _context.Players
+                    .FirstOrDefaultAsync(p => p.RoomId == request.RoomId && p.PlayerId == painter.PlayerId, cancellationToken);
+
+                if (guesser != null)
+                    guesser.PlayerRole = Domain.PlayerRole.Guesser;
+
+                var nextPainter = await _context.Players
+                    .FirstOrDefaultAsync(p => p.RoomId == request.RoomId && p.PlayerId == nextPainterId, cancellationToken);
+
+                if (nextPainter != null)
+                    nextPainter.PlayerRole = Domain.PlayerRole.Painter;
+
+                var room = await _context.Rooms
+                    .FirstOrDefaultAsync(r => r.RoomId == request.RoomId, cancellationToken);
+
+                var roundOver = nextPainterId == orderByMax
+                    .First().PlayerId;
+
+                if (room != null)
                 {
-                    nextPainterId = orderByMax.First(pl => pl.Place > painter.Place).PlayerId;
+                    if (roundOver)
+                        room.Rounds--;
+
+                    room.RightGuess = 0;
                 }
-
-                _context.Players
-                    .FirstOrDefault(p => p.RoomId == request.RoomId && p.PlayerId == painter.PlayerId)
-                    .PlayerRole = Domain.PlayerRole.Guesser;
-
-                _context.Players
-                    .FirstOrDefault(p => p.RoomId == request.RoomId && p.PlayerId == nextPainterId)
-                    .PlayerRole = Domain.PlayerRole.Painter;
-
-                var room = _context.Rooms.FirstOrDefault(r => r.RoomId == request.RoomId);
-
-                var roundOver = nextPainterId == orderByMax.First().PlayerId;
-                if (roundOver)
-                {
-                    room.Rounds--;
-                }
-                room.RightGuess = 0;
 
                 await _context.SaveChangesAsync(cancellationToken);
 
+                _logger.LogDebug("The next painter in room: {roomId} is {playerId}", request.RoomId, nextPainterId);
                 return roundOver;
             }
             else
             {
+                _logger.LogDebug("There is 0 or 1 player in room {roomId}", request.RoomId);
                 return true;
             }
         }

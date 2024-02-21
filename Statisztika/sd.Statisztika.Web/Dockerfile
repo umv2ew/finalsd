@@ -19,11 +19,11 @@ RUN dotnet build "./sd.Statisztika.Web.csproj" -c $BUILD_CONFIGURATION -o /app/b
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
+RUN dotnet dev-certs https
+RUN dotnet dev-certs https --trust
 RUN dotnet publish "./sd.Statisztika.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
-RUN dotnet dev-certs https
-RUN dotnet dev-certs https --trust
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "sd.Statisztika.Web.dll"]

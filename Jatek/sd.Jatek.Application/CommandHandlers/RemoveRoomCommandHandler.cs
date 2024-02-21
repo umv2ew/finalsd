@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Logging;
 using sd.Jatek.Application.Commands;
 using sd.Jatek.Infrastructure;
 
@@ -7,10 +8,14 @@ namespace sd.Jatek.Application.CommandHandlers
     public class RemoveRoomCommandHandler : IRequestHandler<RemoveRoomCommand, Unit>
     {
         private readonly GameContext _context;
-        public RemoveRoomCommandHandler(GameContext context)
+        private readonly ILogger<RemovePlayerCommandHandler> _logger;
+
+        public RemoveRoomCommandHandler(GameContext context, ILogger<RemovePlayerCommandHandler> logger)
         {
             _context = context;
+            _logger = logger;
         }
+
         public async Task<Unit> Handle(RemoveRoomCommand request, CancellationToken cancellationToken)
         {
             var rooms = _context.Rooms.Where(r => r.RoomId == request.RoomId);
@@ -20,6 +25,10 @@ namespace sd.Jatek.Application.CommandHandlers
             _context.Players.RemoveRange(players);
 
             await _context.SaveChangesAsync(cancellationToken);
+
+            _logger.LogInformation("Players {players} finished a game in room {roomId}",
+                players,
+                request.RoomId);
 
             return Unit.Value;
         }

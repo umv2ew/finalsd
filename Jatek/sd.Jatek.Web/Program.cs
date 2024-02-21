@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using sd.Jatek.Application.Models;
 using sd.Jatek.Infrastructure;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,16 +21,19 @@ builder.Services.AddMassTransit(x =>
     x.UsingRabbitMq();
 });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: "_myAllowSpecificOrigins",
-                      policy =>
-                      {
-                          policy.WithOrigins("http://example.com");
-                          policy.WithMethods("GET", "POST");
-                          policy.AllowCredentials();
-                      });
-});
+builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
+    loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
+
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy(name: "_myAllowSpecificOrigins",
+//                      policy =>
+//                      {
+//                          policy.WithOrigins("http://example.com");
+//                          policy.WithMethods("GET", "POST");
+//                          policy.AllowCredentials();
+//                      });
+//});
 
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 

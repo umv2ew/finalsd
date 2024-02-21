@@ -16,11 +16,11 @@ RUN dotnet build "./sd.ApiGateway.Web.csproj" -c $BUILD_CONFIGURATION -o /app/bu
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
+RUN dotnet dev-certs https
+RUN dotnet dev-certs https --trust
 RUN dotnet publish "./sd.ApiGateway.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
-RUN dotnet dev-certs https
-RUN dotnet dev-certs https --trust
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "sd.ApiGateway.Web.dll"]
