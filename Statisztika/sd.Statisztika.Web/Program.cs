@@ -1,5 +1,8 @@
+using HealthChecks.UI.Client;
 using MassTransit;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using sd.Statisztika.Application.Consumers;
 using sd.Statisztika.Infrastructure;
 using Serilog;
@@ -12,6 +15,10 @@ builder.Services.AddDbContext<StatisticsContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
 });
+
+builder.Services.AddHealthChecks()
+    .AddRabbitMQ(new Uri("amqp://guest:guest@localhost:5672"))
+    .AddDbContextCheck<StatisticsContext>();
 
 builder.Services.AddControllers();
 
@@ -33,6 +40,7 @@ var assemblies = Assembly.Load("sd.Statisztika.Application");
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
 
+
 var app = builder.Build();
 
 app.UseHttpsRedirection();
@@ -41,15 +49,26 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    var services = scope.ServiceProvider;
+app.MapHealthChecks("/_health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+    ResultStatusCodes = new Dictionary<HealthStatus, int>
+        {
+            {HealthStatus.Healthy, StatusCodes.Status100Continue},
+            {HealthStatus.Degraded, StatusCodes.Status202Accepted},
+            {HealthStatus.Unhealthy, StatusCodes.Status400BadRequest},
+        },
+});
 
-//    var context = services.GetRequiredService<StatisticsContext>();
-//    if (context.Database.GetPendingMigrations().Any())
-//    {
-//        context.Database.Migrate();
-//    }
-//}
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<StatisticsContext>();
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        context.Database.Migrate();
+    }
+}
 
 app.Run();

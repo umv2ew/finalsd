@@ -101,17 +101,19 @@ namespace sd.Auth.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(user.Username, user.Password, user.RememberMe, false);
+                var result = await _signInManager
+                    .PasswordSignInAsync(user.Username, user.Password, user.RememberMe, false);
 
                 if (result.Succeeded)
                 {
                     var loggedinUser = await _userManager.FindByNameAsync(user.Username);
+
                     Response.Cookies.Append("UserName", user.Username, cookieOptions);
-                    Response.Cookies.Append("UserId", loggedinUser.Id, cookieOptions);
+                    Response.Cookies.Append("UserId", loggedinUser?.Id ?? "", cookieOptions);
 
                     _logger.LogInformation("Logged in with username: {username} and userid: {userId}",
                         user.Username,
-                        loggedinUser.Id);
+                        loggedinUser?.Id ?? "");
 
                     return RedirectToAction("StartGame", "Game");
                 }
@@ -154,13 +156,13 @@ namespace sd.Auth.Web.Controllers
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
-                viewModel = JsonConvert.DeserializeObject<StatisticViewModel>(result);
+                viewModel = JsonConvert.DeserializeObject<StatisticViewModel>(result) ?? new();
             }
             else
             {
                 ModelState.AddModelError(string.Empty, "Either this feature is currently not working or there is no saved statistic");
             }
-            viewModel.User = Request.Cookies["UserName"];
+            viewModel.User = Request.Cookies["UserName"] ?? "";
 
             _logger.LogDebug("Recieved user: {user} statistics: {@stats}", Request.Cookies["UserName"], viewModel);
 

@@ -1,10 +1,10 @@
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 5005
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Jatek/sd.Jatek.Web/sd.Jatek.Web.csproj", "Jatek/sd.Jatek.Web/"]
@@ -25,5 +25,6 @@ RUN dotnet publish "./sd.Jatek.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publi
 
 FROM base AS final
 WORKDIR /app
+HEALTHCHECK CMD curl --fail http://0.0.0.0:5005/health || exit
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "sd.Jatek.Web.dll"]

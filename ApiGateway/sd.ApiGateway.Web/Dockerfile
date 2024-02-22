@@ -1,11 +1,11 @@
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["ApiGateway/sd.ApiGateway.Web/sd.ApiGateway.Web.csproj", "ApiGateway/sd.ApiGateway.Web/"]
@@ -22,5 +22,6 @@ RUN dotnet publish "./sd.ApiGateway.Web.csproj" -c $BUILD_CONFIGURATION -o /app/
 
 FROM base AS final
 WORKDIR /app
+HEALTHCHECK CMD curl --fail http://localhost/_health || exit
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "sd.ApiGateway.Web.dll"]

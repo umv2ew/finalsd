@@ -6,7 +6,7 @@ using sd.Jatek.Infrastructure;
 
 namespace sd.Jatek.Application.CommandHandlers
 {
-    public class RemovePlayerCommandHandler : IRequestHandler<RemovePlayerCommand>
+    public class RemovePlayerCommandHandler : IRequestHandler<RemovePlayerCommand, Unit>
     {
         private readonly GameContext _context;
         private readonly ILogger<RemovePlayerCommandHandler> _logger;
