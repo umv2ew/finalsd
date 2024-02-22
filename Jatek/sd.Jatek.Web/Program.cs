@@ -1,9 +1,9 @@
 using MassTransit;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using sd.Jatek.Application.Models;
 using sd.Jatek.Infrastructure;
 using Serilog;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +35,9 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
 //                      });
 //});
 
-builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+var assemblies = Assembly.Load("sd.Jatek.Application");
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
 
 var app = builder.Build();
 
