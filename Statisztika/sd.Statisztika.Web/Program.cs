@@ -1,9 +1,9 @@
 using MassTransit;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using sd.Statisztika.Application.Consumers;
 using sd.Statisztika.Infrastructure;
 using Serilog;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +16,6 @@ builder.Services.AddDbContext<StatisticsContext>(options =>
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
     loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
@@ -30,16 +29,9 @@ builder.Services.AddMassTransit(x =>
     x.UsingRabbitMq((context, cfg) => cfg.ConfigureEndpoints(context));
 });
 
-builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 app.UseHttpsRedirection();
 
@@ -47,15 +39,15 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
 
-    var context = services.GetRequiredService<StatisticsContext>();
-    if (context.Database.GetPendingMigrations().Any())
-    {
-        context.Database.Migrate();
-    }
-}
+//    var context = services.GetRequiredService<StatisticsContext>();
+//    if (context.Database.GetPendingMigrations().Any())
+//    {
+//        context.Database.Migrate();
+//    }
+//}
 
 app.Run();
