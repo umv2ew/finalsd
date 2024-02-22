@@ -2,6 +2,7 @@ using HealthChecks.UI.Client;
 using MassTransit;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using sd.Jatek.Application.Models;
 using sd.Jatek.Infrastructure;
 using Serilog;
@@ -20,7 +21,7 @@ builder.Services.AddDbContext<GameContext>(options =>
 });
 
 builder.Services.AddHealthChecks()
-    .AddRabbitMQ(new Uri("amqp://guest:guest@localhost:5672"))
+    .AddRabbitMQ(new Uri("amqp://guest:guest@rabbitmq:5672"))
     .AddDbContextCheck<GameContext>();
 
 builder.Services.AddMassTransit(x =>
@@ -71,7 +72,13 @@ app.MapHub<GameHub>("/GameHub");
 
 app.MapHealthChecks("/_health", new HealthCheckOptions
 {
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+    ResultStatusCodes = new Dictionary<HealthStatus, int>
+    {
+        {HealthStatus.Healthy, StatusCodes.Status200OK},
+        {HealthStatus.Degraded, StatusCodes.Status503ServiceUnavailable},
+        {HealthStatus.Unhealthy, StatusCodes.Status503ServiceUnavailable},
+    },
 });
 
 using (var scope = app.Services.CreateScope())

@@ -17,7 +17,7 @@ builder.Services.AddDbContext<StatisticsContext>(options =>
 });
 
 builder.Services.AddHealthChecks()
-    .AddRabbitMQ(new Uri("amqp://guest:guest@localhost:5672"))
+    .AddRabbitMQ(new Uri("amqp://guest:guest@rabbitmq:5672"))
     .AddDbContextCheck<StatisticsContext>();
 
 builder.Services.AddControllers();
@@ -53,11 +53,11 @@ app.MapHealthChecks("/_health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
     ResultStatusCodes = new Dictionary<HealthStatus, int>
-        {
-            {HealthStatus.Healthy, StatusCodes.Status100Continue},
-            {HealthStatus.Degraded, StatusCodes.Status202Accepted},
-            {HealthStatus.Unhealthy, StatusCodes.Status400BadRequest},
-        },
+    {
+        {HealthStatus.Healthy, StatusCodes.Status200OK},
+        {HealthStatus.Degraded, StatusCodes.Status503ServiceUnavailable},
+        {HealthStatus.Unhealthy, StatusCodes.Status503ServiceUnavailable},
+    },
 });
 
 using (var scope = app.Services.CreateScope())

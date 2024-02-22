@@ -25,6 +25,6 @@ RUN dotnet publish "./sd.Jatek.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publi
 
 FROM base AS final
 WORKDIR /app
-HEALTHCHECK CMD curl --fail http://0.0.0.0:5005/health || exit
+HEALTHCHECK CMD curl --fail http://192.168.18.105:5005/_health || exit
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "sd.Jatek.Web.dll"]

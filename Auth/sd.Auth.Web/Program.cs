@@ -2,6 +2,7 @@ using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using sd.Auth.Domain;
 using sd.Auth.Infrastructure;
 using Serilog;
@@ -67,7 +68,13 @@ app.MapControllerRoute(
 
 app.MapHealthChecks("/_health", new HealthCheckOptions
 {
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+    ResultStatusCodes = new Dictionary<HealthStatus, int>
+    {
+        {HealthStatus.Healthy, StatusCodes.Status200OK},
+        {HealthStatus.Degraded, StatusCodes.Status503ServiceUnavailable},
+        {HealthStatus.Unhealthy, StatusCodes.Status503ServiceUnavailable},
+    },
 });
 
 using (var scope = app.Services.CreateScope())
