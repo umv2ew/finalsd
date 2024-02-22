@@ -29,7 +29,9 @@ builder.Services.AddMassTransit(x =>
     x.UsingRabbitMq((context, cfg) => cfg.ConfigureEndpoints(context));
 });
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+var assemblies = Assembly.Load("sd.Statisztika.Application");
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
 
 var app = builder.Build();
 

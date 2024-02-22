@@ -6,7 +6,7 @@ using sd.Statisztika.Infrastructure;
 
 namespace sd.Statisztika.Application.CommandHandlers
 {
-    public class UpdateStatisticsCommandHandler : IRequestHandler<UpdateStatisticsCommand>
+    public class UpdateStatisticsCommandHandler : IRequestHandler<UpdateStatisticsCommand, Unit>
     {
         private readonly StatisticsContext _context;
         private readonly ILogger<UpdateStatisticsCommandHandler> _logger;
