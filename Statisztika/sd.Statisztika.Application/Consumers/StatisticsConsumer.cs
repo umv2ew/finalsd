@@ -5,20 +5,18 @@ using sd.Jatek.Integration;
 using sd.Statisztika.Application.Commands;
 using sd.Statisztika.Application.Dtos;
 
-namespace sd.Statisztika.Application.Consumers
+namespace sd.Statisztika.Application.Consumers;
+
+public class StatisticsConsumer(ISender mediator) : IConsumer<StatisticsIntegrationDto>
 {
-    public class StatisticsConsumer : IConsumer<StatisticsIntegrationDto>
+    private readonly ISender _mediator = mediator;
+
+    public async Task Consume(ConsumeContext<StatisticsIntegrationDto> context)
     {
-        private readonly ISender _mediator;
-        public StatisticsConsumer(ISender mediator)
-        {
-            _mediator = mediator;
-        }
-        public async Task Consume(ConsumeContext<StatisticsIntegrationDto> context)
-        {
-            var jsonMessage = JsonConvert.SerializeObject(context.Message);
-            var dto = JsonConvert.DeserializeObject<UpdateStatisticsDto>(jsonMessage);
-            await _mediator.Send(new UpdateStatisticsCommand(dto));
-        }
+        var jsonMessage = JsonConvert.SerializeObject(context.Message);
+        var dto = JsonConvert.DeserializeObject<UpdateStatisticsDto>(jsonMessage)
+            ?? throw new Exception("Statistics serialization failed");
+
+        await _mediator.Send(new UpdateStatisticsCommand(dto));
     }
 }

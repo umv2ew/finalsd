@@ -15,6 +15,7 @@ public class ApiGatewayHealthCheck : IHealthCheck
         {
             return HealthCheckResult.Healthy("A healthy result.");
         }
+
         return new HealthCheckResult(context.Registration.FailureStatus, "An unhealthy result.");
     }
 }

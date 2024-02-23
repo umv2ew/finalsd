@@ -1,13 +1,8 @@
 ﻿using MediatR;
 
-namespace sd.Jatek.Application.Commands
+namespace sd.Jatek.Application.Commands;
+
+public class RemovePlayerCommand(string playerId) : IRequest<Unit>
 {
-    public class RemovePlayerCommand : IRequest
-    {
-        public RemovePlayerCommand(string playerId)
-        {
-            PlayerId = playerId;
-        }
-        public string PlayerId { get; set; }
-    }
+    public string PlayerId { get; set; } = playerId;
 }

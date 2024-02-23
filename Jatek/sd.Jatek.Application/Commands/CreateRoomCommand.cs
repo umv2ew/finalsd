@@ -1,17 +1,10 @@
 ﻿using MediatR;
 using sd.Jatek.Application.Dtos;
 
-namespace sd.Jatek.Application.Commands
-{
-    public class CreateRoomCommand : IRequest
-    {
-        public CreateRoomCommand(RoomDto dto, bool createRoom)
-        {
-            Dto = dto;
-            CreateRoom = createRoom;
-        }
+namespace sd.Jatek.Application.Commands;
 
-        public RoomDto Dto { get; set; }
-        public bool CreateRoom { get; set; }
-    }
+public class CreateRoomCommand(RoomDto dto, bool createRoom) : IRequest<Unit>
+{
+    public RoomDto Dto { get; set; } = dto;
+    public bool CreateRoom { get; set; } = createRoom;
 }

@@ -1,13 +1,8 @@
 ﻿using MediatR;
 
-namespace sd.Jatek.Application.Commands
+namespace sd.Jatek.Application.Commands;
+
+public class RemoveRoomCommand(string roomId) : IRequest<Unit>
 {
-    public class RemoveRoomCommand : IRequest
-    {
-        public RemoveRoomCommand(string roomId)
-        {
-            RoomId = roomId;
-        }
-        public string RoomId { get; set; }
-    }
+    public string RoomId { get; set; } = roomId;
 }

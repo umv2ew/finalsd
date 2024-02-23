@@ -1,16 +1,9 @@
 ﻿using MediatR;
 
-namespace sd.Jatek.Application.Commands
-{
-    public class RightGuessCommand : IRequest
-    {
-        public RightGuessCommand(string roomId, string playerId)
-        {
-            RoomId = roomId;
-            PlayerId = playerId;
-        }
+namespace sd.Jatek.Application.Commands;
 
-        public string RoomId { get; set; }
-        public string PlayerId { get; set; }
-    }
+public class RightGuessCommand(string roomId, string playerId) : IRequest<Unit>
+{
+    public string RoomId { get; set; } = roomId;
+    public string PlayerId { get; set; } = playerId;
 }

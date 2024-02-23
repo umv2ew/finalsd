@@ -1,13 +1,8 @@
 ﻿using MediatR;
 
-namespace sd.Jatek.Application.Commands
+namespace sd.Jatek.Application.Commands;
+
+public class StartGameCommand(string roomId) : IRequest<Unit>
 {
-    public class StartGameCommand : IRequest
-    {
-        public StartGameCommand(string roomId)
-        {
-            RoomId = roomId;
-        }
-        public string RoomId { get; set; }
-    }
+    public string RoomId { get; set; } = roomId;
 }

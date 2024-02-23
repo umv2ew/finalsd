@@ -9,11 +9,10 @@ using Serilog;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+var assemblies = Assembly.Load("sd.Jatek.Application");
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
-
 
 builder.Services.AddDbContext<GameContext>(options =>
 {
@@ -21,7 +20,7 @@ builder.Services.AddDbContext<GameContext>(options =>
 });
 
 builder.Services.AddHealthChecks()
-    .AddRabbitMQ(new Uri("amqp://guest:guest@rabbitmq:5672"))
+    .AddRabbitMQ(new Uri("amqp://guest:guest@rabbitmq:5676"))
     .AddDbContextCheck<GameContext>();
 
 builder.Services.AddMassTransit(x =>
@@ -29,27 +28,13 @@ builder.Services.AddMassTransit(x =>
     x.UsingRabbitMq();
 });
 
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
+
 builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
     loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
 
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy(name: "_myAllowSpecificOrigins",
-//                      policy =>
-//                      {
-//                          policy.WithOrigins("http://example.com");
-//                          policy.WithMethods("GET", "POST");
-//                          policy.AllowCredentials();
-//                      });
-//});
-
-var assemblies = Assembly.Load("sd.Jatek.Application");
-
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -58,7 +43,6 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
 app.UseAuthorization();

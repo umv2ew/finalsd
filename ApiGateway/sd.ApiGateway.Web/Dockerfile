@@ -5,6 +5,9 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+RUN apt-get update
+RUN apt-get --yes install curl
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
@@ -22,6 +25,5 @@ RUN dotnet publish "./sd.ApiGateway.Web.csproj" -c $BUILD_CONFIGURATION -o /app/
 
 FROM base AS final
 WORKDIR /app
-HEALTHCHECK CMD curl --fail http://localhost/_health || exit
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "sd.ApiGateway.Web.dll"]

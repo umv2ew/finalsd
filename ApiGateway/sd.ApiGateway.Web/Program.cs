@@ -1,7 +1,6 @@
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using sd.ApiGateway.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +8,8 @@ var proxyBuilder = builder.Services.AddReverseProxy();
 
 proxyBuilder.LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
-builder.Services.AddHealthChecks()
-    .AddCheck<ApiGatewayHealthCheck>("ApiGateway");
+builder.Services.AddHealthChecks();
+//.AddCheck<ApiGatewayHealthCheck>("ApiGateway");
 
 var app = builder.Build();
 

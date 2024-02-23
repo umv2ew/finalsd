@@ -4,6 +4,9 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 5031
 
+RUN apt-get update
+RUN apt-get --yes install curl
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
@@ -25,6 +28,5 @@ RUN dotnet publish "./sd.Statisztika.Web.csproj" -c $BUILD_CONFIGURATION -o /app
 
 FROM base AS final
 WORKDIR /app
-HEALTHCHECK CMD curl --fail http://0.0.0.0:5031/health || exit
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "sd.Statisztika.Web.dll"]

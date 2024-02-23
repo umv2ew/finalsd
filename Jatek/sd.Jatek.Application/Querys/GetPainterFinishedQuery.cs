@@ -1,13 +1,8 @@
 ﻿using MediatR;
 
-namespace sd.Jatek.Application.Querys
+namespace sd.Jatek.Application.Querys;
+
+public class GetPainterFinishedQuery(string roomId) : IRequest<string>
 {
-    public class GetPainterFinishedQuery : IRequest<string>
-    {
-        public GetPainterFinishedQuery(string roomId)
-        {
-            RoomId = roomId;
-        }
-        public string RoomId { get; set; }
-    }
+    public string RoomId { get; set; } = roomId;
 }

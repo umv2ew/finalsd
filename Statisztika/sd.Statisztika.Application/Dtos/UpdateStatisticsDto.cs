@@ -1,15 +1,8 @@
-﻿namespace sd.Statisztika.Application.Dtos
+﻿namespace sd.Statisztika.Application.Dtos;
+
+public class UpdateStatisticsDto(string playerId, bool isWon, int points)
 {
-    public class UpdateStatisticsDto
-    {
-        public UpdateStatisticsDto(string playerId, bool isWon, int points)
-        {
-            PlayerId = playerId;
-            IsWon = isWon;
-            Points = points;
-        }
-        public string PlayerId { get; set; }
-        public bool IsWon { get; set; }
-        public int Points { get; set; }
-    }
+    public string PlayerId { get; set; } = playerId;
+    public bool IsWon { get; set; } = isWon;
+    public int Points { get; set; } = points;
 }

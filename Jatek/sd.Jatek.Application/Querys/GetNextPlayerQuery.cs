@@ -1,14 +1,8 @@
 ﻿using MediatR;
 
-namespace sd.Jatek.Application.Querys
-{
-    public class GetNextPlayerQuery : IRequest<bool>
-    {
-        public GetNextPlayerQuery(string roomId)
-        {
-            RoomId = roomId;
-        }
+namespace sd.Jatek.Application.Querys;
 
-        public string RoomId { get; set; }
-    }
+public class GetNextPlayerQuery(string roomId) : IRequest<bool>
+{
+    public string RoomId { get; set; } = roomId;
 }

@@ -2,20 +2,17 @@
 using sd.Jatek.Domain;
 using sd.Jatek.Infrastructure.EntityConfigurations;
 
-namespace sd.Jatek.Infrastructure
+namespace sd.Jatek.Infrastructure;
+
+public class GameContext(DbContextOptions<GameContext> options) : DbContext(options)
 {
-    public class GameContext : DbContext
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        public GameContext(DbContextOptions<GameContext> options) : base(options)
-        {
-        }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfiguration(new RoomConfiguration());
-            modelBuilder.ApplyConfiguration(new PlayerConfiguration());
-            base.OnModelCreating(modelBuilder);
-        }
-        public DbSet<Room> Rooms { get; set; }
-        public DbSet<Player> Players { get; set; }
+        modelBuilder.ApplyConfiguration(new RoomConfiguration());
+        modelBuilder.ApplyConfiguration(new PlayerConfiguration());
+        base.OnModelCreating(modelBuilder);
     }
+
+    public DbSet<Room> Rooms { get; set; }
+    public DbSet<Player> Players { get; set; }
 }

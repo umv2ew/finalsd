@@ -1,16 +1,8 @@
-﻿namespace sd.Jatek.Application.ViewModels
-{
-    public class WinnerViewModel
-    {
-        public WinnerViewModel(bool tie, int points, string winners)
-        {
-            Tie = tie;
-            Points = points;
-            Winners = winners;
-        }
+﻿namespace sd.Jatek.Application.ViewModels;
 
-        public bool Tie { get; set; }
-        public int Points { get; set; }
-        public string Winners { get; set; }
-    }
+public class WinnerViewModel(bool tie, int points, string winners)
+{
+    public bool Tie { get; set; } = tie;
+    public int Points { get; set; } = points;
+    public string Winners { get; set; } = winners;
 }

@@ -1,15 +1,9 @@
 ﻿using MediatR;
 using sd.Jatek.Application.ViewModels;
 
-namespace sd.Jatek.Application.Querys
-{
-    public class GetGameDataQuery : IRequest<GameDataViewModel>
-    {
-        public GetGameDataQuery(string roomId)
-        {
-            RoomId = roomId;
-        }
+namespace sd.Jatek.Application.Querys;
 
-        public string RoomId { get; set; }
-    }
+public class GetGameDataQuery(string roomId) : IRequest<GameDataViewModel>
+{
+    public string RoomId { get; set; } = roomId;
 }

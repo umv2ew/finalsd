@@ -1,9 +1,8 @@
-﻿namespace sd.Jatek.Integration
+﻿namespace sd.Jatek.Integration;
+
+public class StatisticsIntegrationDto
 {
-    public class StatisticsIntegrationDto
-    {
-        public string PlayerId { get; set; }
-        public bool IsWon { get; set; }
-        public int Points { get; set; }
-    }
+    public string PlayerId { get; set; } = default!;
+    public bool IsWon { get; set; }
+    public int Points { get; set; }
 }

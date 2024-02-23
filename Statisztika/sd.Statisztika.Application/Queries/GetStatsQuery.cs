@@ -1,15 +1,9 @@
 ﻿using MediatR;
-using sd.Statisztika.Application.Dtos;
 using sd.Statisztika.Application.ViewModels;
 
-namespace sd.Statisztika.Application.Queries
+namespace sd.Statisztika.Application.Queries;
+
+public class GetStatsQuery(string playerId) : IRequest<GetStatsViewModel>
 {
-    public class GetStatsQuery : IRequest<GetStatsViewModel>
-    {
-        public GetStatsQuery(string playerId)
-        {
-            PlayerId = playerId;
-        }
-        public  string PlayerId { get; set; }
-    }
+    public string PlayerId { get; set; } = playerId;
 }

@@ -3,34 +3,28 @@ using Microsoft.Extensions.Logging;
 using sd.Jatek.Application.Commands;
 using sd.Jatek.Infrastructure;
 
-namespace sd.Jatek.Application.CommandHandlers
+namespace sd.Jatek.Application.CommandHandlers;
+
+public class RemoveRoomCommandHandler(GameContext context, ILogger<RemovePlayerCommandHandler> logger)
+    : IRequestHandler<RemoveRoomCommand, Unit>
 {
-    public class RemoveRoomCommandHandler : IRequestHandler<RemoveRoomCommand, Unit>
+    private readonly GameContext _context = context;
+    private readonly ILogger<RemovePlayerCommandHandler> _logger = logger;
+
+    public async Task<Unit> Handle(RemoveRoomCommand request, CancellationToken cancellationToken)
     {
-        private readonly GameContext _context;
-        private readonly ILogger<RemovePlayerCommandHandler> _logger;
+        var rooms = _context.Rooms.Where(r => r.RoomId == request.RoomId);
+        _context.Rooms.RemoveRange(rooms);
 
-        public RemoveRoomCommandHandler(GameContext context, ILogger<RemovePlayerCommandHandler> logger)
-        {
-            _context = context;
-            _logger = logger;
-        }
+        var players = _context.Players.Where(p => p.RoomId == request.RoomId);
+        _context.Players.RemoveRange(players);
 
-        public async Task<Unit> Handle(RemoveRoomCommand request, CancellationToken cancellationToken)
-        {
-            var rooms = _context.Rooms.Where(r => r.RoomId == request.RoomId);
-            _context.Rooms.RemoveRange(rooms);
+        await _context.SaveChangesAsync(cancellationToken);
 
-            var players = _context.Players.Where(p => p.RoomId == request.RoomId);
-            _context.Players.RemoveRange(players);
+        _logger.LogInformation("Players {players} finished a game in room {roomId}",
+            players,
+            request.RoomId);
 
-            await _context.SaveChangesAsync(cancellationToken);
-
-            _logger.LogInformation("Players {players} finished a game in room {roomId}",
-                players,
-                request.RoomId);
-
-            return Unit.Value;
-        }
+        return Unit.Value;
     }
 }

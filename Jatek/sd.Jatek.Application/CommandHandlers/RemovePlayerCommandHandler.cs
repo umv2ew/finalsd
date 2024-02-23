@@ -4,37 +4,31 @@ using Microsoft.Extensions.Logging;
 using sd.Jatek.Application.Commands;
 using sd.Jatek.Infrastructure;
 
-namespace sd.Jatek.Application.CommandHandlers
+namespace sd.Jatek.Application.CommandHandlers;
+
+public class RemovePlayerCommandHandler(GameContext context, ILogger<RemovePlayerCommandHandler> logger)
+    : IRequestHandler<RemovePlayerCommand, Unit>
 {
-    public class RemovePlayerCommandHandler : IRequestHandler<RemovePlayerCommand, Unit>
+    private readonly GameContext _context = context;
+    private readonly ILogger<RemovePlayerCommandHandler> _logger = logger;
+
+    public async Task<Unit> Handle(RemovePlayerCommand request, CancellationToken cancellationToken)
     {
-        private readonly GameContext _context;
-        private readonly ILogger<RemovePlayerCommandHandler> _logger;
+        var player = await _context.Players
+            .FirstOrDefaultAsync(p => p.PlayerId == request.PlayerId, cancellationToken);
 
-        public RemovePlayerCommandHandler(GameContext context, ILogger<RemovePlayerCommandHandler> logger)
-        {
-            _context = context;
-            _logger = logger;
-        }
+        if (player != null)
+            _context.Players.Remove(player);
+        else
+            _logger.LogError("Player with id: {playerId} doesn't exist",
+            request.PlayerId);
 
-        public async Task<Unit> Handle(RemovePlayerCommand request, CancellationToken cancellationToken)
-        {
-            var player = await _context.Players
-                .FirstOrDefaultAsync(p => p.PlayerId == request.PlayerId, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
 
-            if (player != null)
-                _context.Players.Remove(player);
-            else
-                _logger.LogError("Player with id: {playerId} doesn't exist",
-                request.PlayerId);
+        _logger.LogInformation("Player {playerName} was removed from room: {roomId}",
+            player?.PlayerName,
+            player?.RoomId);
 
-            await _context.SaveChangesAsync(cancellationToken);
-
-            _logger.LogInformation("Player {playerName} was removed from room: {roomId}",
-                player?.PlayerName,
-                player?.RoomId);
-
-            return Unit.Value;
-        }
+        return Unit.Value;
     }
 }
