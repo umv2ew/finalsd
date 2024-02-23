@@ -4,12 +4,9 @@ using System.Diagnostics;
 
 namespace sd.Auth.Web.Controllers;
 
-[Route("[controller]")]
-public class HomeController(ILogger<HomeController> logger) : Controller
+public class HomeController() : Controller
 {
-    private readonly ILogger<HomeController> _logger = logger;
-
-    [HttpGet("Index")]
+    [HttpGet("/")]
     public IActionResult Index()
     {
         return View();

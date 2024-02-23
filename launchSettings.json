@@ -5,13 +5,15 @@
       "commandVersion": "1.0",
       "composeLaunchAction": "LaunchBrowser",
       "composeLaunchServiceName": "sd.auth.web",
-      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
+      "composeLaunchUrl": "{Scheme}://localhost/",
       "serviceActions": {
         "sd.jatek.web": "StartDebugging",
         "sd.statisztika.web": "StartDebugging",
         "sd.apigateway.web": "StartDebugging",
         "sd.auth.web": "StartDebugging",
-        "redis": "StartWithoutDebugging"
+        "redis": "StartWithoutDebugging",
+        "rabbitmq": "StartWithoutDebugging",
+        "sql-server-db": "StartWithoutDebugging"
       }
     }
   }
