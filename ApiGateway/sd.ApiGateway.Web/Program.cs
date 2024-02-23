@@ -9,7 +9,6 @@ var proxyBuilder = builder.Services.AddReverseProxy();
 proxyBuilder.LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
 builder.Services.AddHealthChecks();
-//.AddCheck<ApiGatewayHealthCheck>("ApiGateway");
 
 var app = builder.Build();
 
