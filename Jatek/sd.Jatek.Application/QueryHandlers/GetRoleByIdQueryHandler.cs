@@ -15,10 +15,11 @@ public class GetRoleByIdQueryHandler(GameContext context, ILogger<GetRoleByIdQue
     public async Task<string> Handle(GetRoleByIdQuery request, CancellationToken cancellationToken)
     {
         var player = await _context.Players
-            .FirstOrDefaultAsync(p => p.RoomId == request.RoomId && p.PlayerId == request.PlayerId, cancellationToken);
+            .FirstOrDefaultAsync(p => p.RoomId == request.RoomId && p.PlayerId == request.PlayerId, cancellationToken)
+            ?? throw new Exception("Player doesnt exist");
 
         _logger.LogDebug("Players {playerId} role is {playerRole}", request.PlayerId, player?.PlayerRole);
 
-        return player == null ? "" : player.PlayerRole.ToString();
+        return player.PlayerRole.ToString();
     }
 }

@@ -272,33 +272,35 @@
     <div id="demo" class="collapse">
         <div class="tablecontainer">
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model =>(ViewData["rooms"] as IList<PublicRoomsViewModel>)[0].Creator)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model =>(ViewData["rooms"] as IList<PublicRoomsViewModel>)[0].RoomId)
-                        </th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @foreach (var item in ViewData["rooms"] as IList<PublicRoomsViewModel>)
-                    {
+            @if (ViewData["rooms"] != null)
+            {
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Creator)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.RoomId)
-                            </td>
+                            <th>
+                                @Html.DisplayNameFor(model =>(ViewData["rooms"] as IList<PublicRoomsViewModel>)[0].Creator)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model =>(ViewData["rooms"] as IList<PublicRoomsViewModel>)[0].RoomId)
+                            </th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
 
+                    <tbody>
+                        @foreach (var item in ViewData["rooms"] as IList<PublicRoomsViewModel>)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Creator)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RoomId)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
         </div>
     </div>
 </div>

@@ -24,7 +24,7 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapReverseProxy();
+    _ = endpoints.MapReverseProxy();
 });
 
 app.MapHealthChecks("/_health", new HealthCheckOptions

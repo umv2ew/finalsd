@@ -44,14 +44,13 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<AuthContext>();
 
-var app = builder.Build();
 
+var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
-
 
 app.UseStaticFiles();
 app.UseRouting();
