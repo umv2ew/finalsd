@@ -66,11 +66,11 @@ public class AccountController(UserManager<AppUser> userManager,
 
             ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
 
-            _logger.LogInformation("Invalid Login Attempt with username: {username} and userid: {userId}",
+            _logger.LogInformation("Invalid Register Attempt with username: {username} and userid: {userId}",
                 model.Username,
                 user.Id);
         }
-
+        Response.StatusCode = 403;
         return View(model);
     }
 
@@ -114,6 +114,7 @@ public class AccountController(UserManager<AppUser> userManager,
             _logger.LogInformation("Invalid Login Attempt username: {username}",
                 user.Username);
         }
+        Response.StatusCode = 401;
         return View(user);
     }
 

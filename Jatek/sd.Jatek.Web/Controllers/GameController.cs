@@ -76,7 +76,7 @@ public class GameController(ILogger<GameController> logger, IPublishEndpoint pub
         }
 
         ViewData["rooms"] = await _mediator.Send(new GetPublicRoomsQuery());
-
+        Response.StatusCode = 406;
         return View(viewModel);
     }
 
