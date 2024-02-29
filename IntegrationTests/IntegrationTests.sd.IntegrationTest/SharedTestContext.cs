@@ -46,6 +46,6 @@ public class SharedTestContext : IAsyncLifetime
     public async Task DisposeAsync()
     {
         await Browser.DisposeAsync();
-        //_dockerService.Dispose();
+        _dockerService.Dispose();
     }
 }
