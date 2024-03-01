@@ -50,7 +50,7 @@ public class LoginTest
 
         userId.Should().NotBeNull();
         username.Should().NotBeNull();
-        username?.Value.Should().Be("loginUserName");
+        username?.Value.Should().Be(name);
 
         page.Url.Should().Be("http://localhost/Game/StartGame");
     }

@@ -3,10 +3,9 @@
 services:
 
    test-auth:
-     # build: ../../repos/finalsd/Auth/sd.Auth.Web
      build:
        context: .
-       dockerfile: ../finalsd/Auth/sd.Auth.Web/Dockerfile #../../repos/finalsd/Auth/sd.Auth.Web/Dockerfile
+       dockerfile: ../finalsd/Auth/sd.Auth.Web/Dockerfile
      ports: 
        - "5011:5011"
      environment:

@@ -32,20 +32,17 @@ public class SharedTestContext : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        //Directory.SetCurrentDirectory(@"..\..\..");
-
         _dockerService.Start();
         _playwright = await Playwright.CreateAsync();
         Browser = await _playwright.Webkit.LaunchAsync(new BrowserTypeLaunchOptions
         {
-            Headless = false,
-            SlowMo = 1000
+            Headless = true
         });
     }
 
     public async Task DisposeAsync()
     {
         await Browser.DisposeAsync();
-        _dockerService.Dispose();
+        //_dockerService.Dispose();
     }
 }

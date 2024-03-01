@@ -2,7 +2,7 @@ Dokumentation: github/wiki
 
 !The game only works on http it doesn't have implementation for https!
 Entry point: http://localhost
-docker compose -f docker-compose.yml -f docker-compose.override.yml up
+in the finalsd folder: docker compose -f docker-compose.yml -f docker-compose.override.yml up
 
 Short description of the game:
 	1. The user logs in or registers

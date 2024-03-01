@@ -137,7 +137,7 @@ public class AccountController(UserManager<AppUser> userManager,
     public async Task<IActionResult> Profile()
     {
         var httpClient = _clientFactory.CreateClient();
-        Uri siteUri = new("http://192.168.18.105/Statistics/GetStatisticsById?id=" + Request.Cookies["UserId"]);
+        Uri siteUri = new("http://172.17.0.1/Statistics/GetStatisticsById?id=" + Request.Cookies["UserId"]);
 
         var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, siteUri) { };
 

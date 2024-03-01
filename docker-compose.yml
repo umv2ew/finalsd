@@ -3,6 +3,7 @@ version: '3.4'
 services:
   sd.jatek.web:
     image: ${DOCKER_REGISTRY-}sdjatekweb
+    restart: always
     build:
       context: .
       dockerfile: Jatek/sd.Jatek.Web/Dockerfile
@@ -20,6 +21,7 @@ services:
 
   sd.statisztika.web:
     image: ${DOCKER_REGISTRY-}sdstatisztikaweb
+    restart: always
     build:
       context: .
       dockerfile: Statisztika/sd.Statisztika.Web/Dockerfile
@@ -37,6 +39,7 @@ services:
 
   sd.apigateway.web:
     image: ${DOCKER_REGISTRY-}sdapigatewayweb
+    restart: always
     build:
       context: .
       dockerfile: ApiGateway/sd.ApiGateway.Web/Dockerfile
@@ -51,6 +54,7 @@ services:
 
   sd.auth.web:
     image: ${DOCKER_REGISTRY-}sdauthweb
+    restart: always
     build:
       context: .
       dockerfile: Auth/sd.Auth.Web/Dockerfile
@@ -66,6 +70,7 @@ services:
   sql-server-db:
     container_name: sql-server-db
     image: mcr.microsoft.com/mssql/server
+    restart: always
     ports:
       - "1433:1433"
     environment:
@@ -74,6 +79,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
+    restart: always
     container_name: 'rabbitmq'
     ports:
         - 5672:5672  

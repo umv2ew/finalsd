@@ -7,7 +7,7 @@ public class ApiGatewayHealthCheck : IHealthCheck
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
         using HttpClient client = new();
-        Uri siteUri = new("http://192.168.18.105/Account/Login");
+        Uri siteUri = new("http://172.17.0.1/Account/Login");
 
         var response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Get, siteUri), cancellationToken);
 
